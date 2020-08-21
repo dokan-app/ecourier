@@ -1,0 +1,13 @@
+@if(flashMessage('errorMsg'))
+    <div class="error app_alert">
+        <span>{{ flashMessage('errorMsg') }}</span>
+        <button class="app_alert__button" onclick="this.parentElement.remove()">&times;</button> 
+    </div>
+@endif
+
+@if(flashMessage('successMsg'))
+    <div class="success app_alert">
+        <span>{{ flashMessage('successMsg') }}</span>
+        <button class="app_alert__button" onclick="this.parentElement.remove()">&times;</button> 
+    </div>
+@endif

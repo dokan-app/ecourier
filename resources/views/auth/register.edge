@@ -1,0 +1,43 @@
+@layout('layouts.main')
+@section('body')
+<div class="container my-5">
+    <div class="col-md-5 mx-auto">
+        <form action="{{ route('auth.user.register') }}" method="POST">
+            {{ csrfField() }}
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="name">আপনার নাম</label>
+                        <input class="form-control {{ hasErrorFor('name') && 'is-invalid' }}" type="text" name="name" id="name" placeholder="নাম" value="{{ old('name', '') }}">
+                        <span class="invalid-feedback">{{ getErrorFor('name') }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">আপনার ইউজারনেম</label>
+                        <input class="form-control {{ hasErrorFor('username') && 'is-invalid' }}" type="text" name="username" id="username" placeholder="ইউজারনেম" value="{{ old('username') }}">
+                        <span class="invalid-feedback">{{ getErrorFor('username') }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">আপনার ইমেইল এড্রেস</label>
+                        <input class="form-control {{ hasErrorFor('email') && 'is-invalid' }}" type="text" name="email" id="email" placeholder="ইমেইল এড্রেস" value="{{ old('email') }}">
+                        <span class="invalid-feedback">{{ getErrorFor('email') }}</span>
+                    </div>
+               
+                    <div class="form-group">
+                        <label for="password">পাসওয়ার্ড</label>
+                        <input class="form-control {{ hasErrorFor('password') && 'is-invalid' }}" type="text" name="password" id="password" placeholder="পাসওয়ার্ড">
+                        <span class="invalid-feedback">{{ getErrorFor('password') }}</span>
+                    </div>
+               
+                    <div class="form-group">
+                       <button class="btn btn-success btn-sm">নিবন্ধন করুন</button>
+                    </div>
+
+                    <p>
+                        ইতিমধ্যেই একাউন্ট আছে? <a href="{{ route('auth.user.login') }}">লগইন করুন</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection

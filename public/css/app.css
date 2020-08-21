@@ -1,0 +1,55 @@
+.app_alert {
+  color: #fff;
+  text-align: center;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+.app_alert.error {
+  background-color: #e74c3c;
+}
+.app_alert.success {
+  background-color: #27ae60;
+}
+.app_alert__button {
+  position: absolute;
+  right: 5px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+}
+.app_alert__button:focus {
+  outline: none;
+}
+
+.user-menu {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.user-menu__photo {
+  display: inline-block;
+  height: 35px;
+  width: 35px;
+  margin-right: 15px;
+}
+.user-menu__photo img {
+  width: 100%;
+}
+.user-menu__name {
+  font-size: 18px;
+}
+
+.dropdown-menu {
+  top: 120%;
+  left: -35px;
+}
+
+/*# sourceMappingURL=app.css.map */
