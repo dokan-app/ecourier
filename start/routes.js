@@ -18,26 +18,44 @@ const Route = use("Route");
 
 Route.on("/").render("welcome");
 
-Route.on("auth/login")
-  .render("auth.login")
-  .as("auth.user.login")
+Route.group(() => {
+  /**
+   * ------------------------------------
+   *  User Authentication
+   * ------------------------------------
+   */
+  Route.on("login").render("auth.login").as("auth.user.login");
+  Route.on("register").render("auth.register").as("auth.user.register");
+  Route.post("login", "AuthController.login");
+  Route.post("register", "AuthController.register");
+
+  /**
+   * ------------------------------------
+   *  Admin Authentication
+   * ------------------------------------
+   */
+  Route.on("admin/login").render("auth.admin.login").as("auth.admin.login");
+  Route.on("admin/register")
+    .render("auth.admin.register")
+    .as("auth.admin.register");
+
+  Route.post("admin/login", "AdminController.login");
+  Route.post("admin/register", "AdminController.register");
+})
+  .prefix("auth")
   .middleware("guest");
 
-Route.on("auth/register")
-  .render("auth.register")
-  .as("auth.user.register")
-  .middleware("guest");
-
-Route.post("auth/logout", "AuthController.logout")
-  // .middleware("auth")
-  .as("auth.logout");
-
-Route.post("auth/login", "AuthController.login");
-Route.post("auth/register", "AuthController.register");
+Route.post("auth/logout", "AuthController.logout").as("auth.logout");
 
 Route.group(() => {
   Route.get("/", "UserDashboardController.states").as("user.dashboard");
   Route.resource("parcels", "PercelController");
 })
   .prefix("dashboard")
+  .middleware("auth");
+
+Route.group(() => {
+  Route.get("/", "AdminDashboardController.states").as("admin.dashboard");
+})
+  .prefix("admin-dashboard")
   .middleware("auth");

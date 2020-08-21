@@ -3,21 +3,21 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-class IsAuthenticated {
+class AuthenticatedAdmin {
   /**
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Function} next
    */
-  async handle({ request, response, auth, session }, next) {
+  async handle({ response, auth, session }, next) {
     try {
       await auth.check();
     } catch (error) {
       session.flash({ errorMsg: "দয়া করে আগে লগইন করুন" });
-      response.route("auth.user.login");
+      response.route("auth.admin.login");
     }
     await next();
   }
 }
 
-module.exports = IsAuthenticated;
+module.exports = AuthenticatedAdmin;
