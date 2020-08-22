@@ -3,7 +3,9 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-class Guest {
+const Logger = use("Logger");
+
+class AuthenticatedUser {
   /**
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -12,12 +14,14 @@ class Guest {
   async handle({ request, response, auth, session }, next) {
     try {
       await auth.check();
-      session.flash({ successMsg: "আপনি পুর্ব থেকেই লগইন অবস্থায় রয়েছেন।" });
-      response.route("user.dashboard");
+      Logger.alert("AuthenticatedUser: try");
     } catch (error) {
-      await next();
+      Logger.info("AuthenticatedUser: catch");
+      session.flash({ errorMsg: "দয়া করে আগে লগইন করুন" });
+      response.route("auth.user.login");
     }
+    await next();
   }
 }
 
-module.exports = Guest;
+module.exports = AuthenticatedUser;

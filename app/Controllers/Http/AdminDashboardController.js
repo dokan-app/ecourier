@@ -10,12 +10,12 @@ class AdminDashboardController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  states({ request, response, view }) {
-    // return view.render("admin-dashboard.states");
+  async states({ auth, request, response }) {
+    const x = auth.authenticator("admin");
+    const admin = await x.getUser();
     return response.json({
-      message: "Admin dashboard",
+      admin,
     });
-    // return view.render("admin-dashboard.states");
   }
 }
 

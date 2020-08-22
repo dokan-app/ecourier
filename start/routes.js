@@ -28,7 +28,11 @@ Route.group(() => {
   Route.on("register").render("auth.register").as("auth.user.register");
   Route.post("login", "AuthController.login");
   Route.post("register", "AuthController.register");
+})
+  .prefix("auth")
+  .middleware("UnAuthenticatedUser");
 
+Route.group(() => {
   /**
    * ------------------------------------
    *  Admin Authentication
@@ -43,19 +47,30 @@ Route.group(() => {
   Route.post("admin/register", "AdminController.register");
 })
   .prefix("auth")
-  .middleware("guest");
+  .middleware("UnAuthenticatedAdmin");
 
 Route.post("auth/logout", "AuthController.logout").as("auth.logout");
 
+/**
+ * ------------------------------------------------
+ *      User Dashboard
+ * ------------------------------------------------
+ */
 Route.group(() => {
   Route.get("/", "UserDashboardController.states").as("user.dashboard");
   Route.resource("parcels", "PercelController");
 })
   .prefix("dashboard")
-  .middleware("auth");
+  .middleware("AuthenticatedUser");
+
+/**
+ * ------------------------------------------------
+ *      Admin Dashboard
+ * ------------------------------------------------
+ */
 
 Route.group(() => {
   Route.get("/", "AdminDashboardController.states").as("admin.dashboard");
 })
   .prefix("admin-dashboard")
-  .middleware("auth");
+  .middleware(["AuthenticatedAdmin", "auth:admin"]);

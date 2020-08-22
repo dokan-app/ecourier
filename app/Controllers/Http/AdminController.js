@@ -22,9 +22,8 @@ class AdminController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async login({ params, request, response, auth, session }) {
+  async login({ request, response, auth, session }) {
     const data = request.all();
-    delete data._csrf;
 
     const validation = await validateAll(
       data,
@@ -51,6 +50,7 @@ class AdminController {
       // Login via admin authenticator
       const authenticator = auth.authenticator("admin");
       await authenticator.attempt(email, password);
+
       return response.route("admin.dashboard");
     } catch (error) {
       session.flash({ errorMsg: "ইমেইল অথবা পাসোয়ার্ড ভুল করেছেন" });
