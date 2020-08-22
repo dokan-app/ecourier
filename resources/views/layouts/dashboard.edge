@@ -13,10 +13,18 @@
 <body>
     @include('partials/_navbar')
     @include('partials/_alert')
-    <h1>Dashboard layout</h1>
-    <div class="container">
+    <div class="container my-4">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-3">
+                @is('administrator')
+                    @include('partials/_admin-dashboard-sidebar')
+                @endis
+
+                @is('merchant')
+                    @include('partials/_merchant-dashboard-sidebar')
+                @endis
+            </div>
+            <div class="col-md-8">
                 @!section('body')
             </div>
         </div>

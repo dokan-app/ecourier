@@ -18,6 +18,7 @@ const globalMiddleware = [
   "Adonis/Middleware/Shield",
   "Adonis/Middleware/AuthInit",
   "App/Middleware/ConvertEmptyStringsToNull",
+  "Adonis/Acl/Init",
 ];
 
 /*
@@ -38,10 +39,14 @@ const globalMiddleware = [
 |
 */
 const namedMiddleware = {
-  auth: "App/Middleware/IsAuthenticated",
-  guest: "App/Middleware/Guest",
-  // auth: "Adonis/Middleware/Auth",
-  // guest: "Adonis/Middleware/AllowGuestOnly",
+  Authenticated: "App/Middleware/Authenticated",
+  UnAuthenticated: "App/Middleware/UnAuthenticated",
+
+  auth: "Adonis/Middleware/Auth",
+  guest: "Adonis/Middleware/AllowGuestOnly",
+
+  is: "Adonis/Acl/Is",
+  can: "Adonis/Acl/Can",
 };
 
 /*
