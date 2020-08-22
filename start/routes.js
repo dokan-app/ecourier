@@ -15,6 +15,25 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
+const Role = use("Role");
+
+(async function () {
+  const count = await Role.getCount();
+
+  if (!Number(count)) {
+    const roleAdmin = new Role();
+    roleAdmin.name = "Administrator";
+    roleAdmin.slug = "administrator";
+    roleAdmin.description = "manage administration privileges";
+    await roleAdmin.save();
+
+    const userRole = new Role();
+    userRole.name = "Merchant";
+    userRole.slug = "merchant";
+    userRole.description = "manage merchantizer privileges";
+    await userRole.save();
+  }
+})();
 
 Route.on("/").render("welcome");
 
@@ -27,7 +46,7 @@ Route.group(() => {
   Route.on("login").render("auth.login").as("auth.user.login");
   Route.on("register").render("auth.register").as("auth.user.register");
   Route.post("login", "AuthController.login");
-  Route.post("register", "AuthController.register");
+  Route.post("register", "AuthController.registerMerchant");
 })
   .prefix("auth")
   .middleware("UnAuthenticatedUser");
