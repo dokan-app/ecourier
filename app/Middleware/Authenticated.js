@@ -14,7 +14,7 @@ class Authenticated {
       await auth.check();
     } catch (error) {
       session.flash({ errorMsg: "দয়া করে আগে লগইন করুন" });
-      response.route("auth.user.login");
+      response.route("auth.login");
     }
     await next();
   }

@@ -26,7 +26,7 @@
         <div class="btn-group">
           <div class="user-menu" data-toggle="dropdown">
             <span class="user-menu__photo overflow-hidden">
-              <img class="rounded-circle" src="https://randomuser.me/api/portraits/men/43.jpg" alt="{{ auth.user.name }}">
+              <img class="rounded-circle" src="{{ getAvater(auth.user.email) }}" alt="{{ auth.user.name }}">
             </span>
             <span class="user-menu__name">
               {{ auth.user.name }}

@@ -6,11 +6,11 @@
             <div class="card">
                 <div class="card-header">জোন হালনাগাদ করুন</div>
                 <div class="card-body">
-                    <form action="{{ route('zones.update' , { id: area.id }) }}?_method=put" method="POST">
+                    <form action="{{ route('zones.update' , { id: zones.id }) }}?_method=put" method="POST">
                         {{csrfField()}}
                         <div class="form-group">
                             <label for="name">নাম</label>
-                            <input class="form-control {{ hasErrorFor('name') && 'is-invalid' }}" type="text" name="name" id="name" placeholder="এরিয়ার নাম" value="{{ old('name', area.name) }}">
+                            <input class="form-control {{ hasErrorFor('name') && 'is-invalid' }}" type="text" name="name" id="name" placeholder="এরিয়ার নাম" value="{{ old('name', zones.name) }}">
                             <span class="invalid-feedback">{{ getErrorFor('name') }}</span>
                         </div>
 

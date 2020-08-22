@@ -188,6 +188,17 @@ class AuthController {
     return response.route("auth.login");
   }
 
+  /**
+   * Show a list of all percels.
+   * GET percels
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async updateProfile({ params, request, view, session, response }) {}
+
   async logout({ auth, session, response }) {
     await auth.logout();
     session.flash({ successMsg: "সফলভাবে লগআউট করেছেন।" });
