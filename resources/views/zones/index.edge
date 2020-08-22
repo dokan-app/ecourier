@@ -1,13 +1,13 @@
 @layout('layouts.dashboard')
 @section('body')
 
-    <h1>সকল এরিয়া সমূহ ( {{ bnNum(areas.total) }} )</h1>
-    <a href="{{ route('areas.create') }}">নতুন</a>
-
+    <h1>সকল জোন সমূহ ( {{ bnNum(zones.total) }} )</h1>
+    <a href="{{ route('zones.create') }}">নতুন</a>
+    
     <div class="row mt-3">
-        @each(item in areas.data)
+        @each(item in zones.data)
             <div class="col-md-6 mb-3">
-                <form id="area-delete-id-{{ item.id }}" action="{{ route('areas.destroy' , { id: item.id }) }}?_method=delete" method="post">{{ csrfField() }}</form>
+                <form id="area-delete-id-{{ item.id }}" action="{{ route('zones.destroy' , { id: item.id }) }}?_method=delete" method="post">{{ csrfField() }}</form>
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <span>{{ item.name }}</span>
@@ -15,7 +15,7 @@
                             <a 
                             onclick="confirm('আসলেই মুছে ফেলছে চান?') && document.getElementById('area-delete-id-{{ item.id }}').submit()"
                             href="javascript:void(0)" class="text-danger mr-1"><i class="fa fa-trash"></i></a>
-                            <a href="{{ route('areas.edit' , { id: item.id }) }}"> <i class="fa fa-pencil"></i> </a>
+                            <a href="{{ route('zones.edit' , { id: item.id }) }}"> <i class="fa fa-pencil"></i> </a>
                         </span>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            @!component('components/Pagination', last_page = areas.lastPage , page = areas.page , show=parseInt(areas.total) > areas.perPage)
+            @!component('components/Pagination', last_page = zones.lastPage , page = zones.page , show=parseInt(zones.total) > zones.perPage)
         </div>
     </div>
 @endsection

@@ -4,6 +4,12 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+/** @type {typeof import('adonisjs/validator')} */
+const { validateAll } = use("Validator");
+
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+const Area = use("App/Models/Area");
+
 /**
  * Resourceful controller for interacting with areas
  */
@@ -18,7 +24,10 @@ class AreaController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
-    return view.render("areas.index");
+    const areas = await Area.query()
+      .orderBy("created_at", "desc")
+      .paginate(request.input("page", 1), 21);
+    return view.render("areas.index", { areas: areas.toJSON() });
   }
 
   /**
@@ -42,7 +51,30 @@ class AreaController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {}
+  async store({ request, response, session }) {
+    const data = request.only(["name"]);
+
+    const validation = await validateAll(
+      data,
+      {
+        name: "required|min:3",
+      },
+      {
+        "name.required": "বাধ্যতামূলক",
+        "name.min": "কমপক্ষে ৩টি অক্ষর থাকতে হবে",
+      }
+    );
+
+    if (validation.fails()) {
+      session.flash({ errorMsg: "কিছু ভুল করেছেন, দয়া করে ঠিক করুন।" });
+      session.withErrors(validation.messages());
+      return response.redirect("back");
+    }
+
+    await Area.create(data);
+
+    response.route("areas.index");
+  }
 
   /**
    * Display a single area.
@@ -66,7 +98,10 @@ class AreaController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit({ params, request, response, view }) {}
+  async edit({ params, request, response, view }) {
+    const area = await Area.findByOrFail("id", params.id);
+    return view.render("areas.edit", { area });
+  }
 
   /**
    * Update area details.
@@ -76,7 +111,34 @@ class AreaController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, request, response }) {}
+  async update({ params, request, response, session }) {
+    const data = request.only(["name"]);
+
+    const validation = await validateAll(
+      data,
+      {
+        name: "required|min:3",
+      },
+      {
+        "name.required": "বাধ্যতামূলক",
+        "name.min": "কমপক্ষে ৩টি অক্ষর থাকতে হবে",
+      }
+    );
+
+    if (validation.fails()) {
+      session.flash({ errorMsg: "কিছু ভুল করেছেন, দয়া করে ঠিক করুন।" });
+      session.withErrors(validation.messages());
+      return response.redirect("back");
+    }
+
+    const area = await Area.findBy("id", params.id);
+    area.name = data.name;
+    await area.save();
+
+    session.flash({ successMsg: "সফল ভাবে হালনাগাদ হয়েছে" });
+
+    response.route("areas.index");
+  }
 
   /**
    * Delete a area with id.
@@ -86,7 +148,12 @@ class AreaController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {}
+  async destroy({ params, response, session }) {
+    const area = await Area.findByOrFail("id", params.id);
+    session.flash({ successMsg: "সফল ভাবে মুছে ফেলা হয়েছে" });
+    area.delete();
+    response.route("areas.index");
+  }
 }
 
 module.exports = AreaController;

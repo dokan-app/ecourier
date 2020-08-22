@@ -1,0 +1,16 @@
+@if(show)
+  <ul class="pagination">
+
+    @unless(page == 1)
+    <li class="page-item"><a class="page-link" href="?page={{ page - 1 }}">পুর্বের পাতা</a></li>
+    @endunless
+
+    @each(currentPageNo in paginationArray(last_page))
+        <li class="page-item {{ currentPageNo == page ? 'active': '' }}"><a href="?page={{currentPageNo}}" class="page-link">{{ currentPageNo }}</a></li>
+    @endeach
+
+    @unless(page == last_page)
+    <li class="page-item"><a class="page-link" href="?page={{ page + 1 }}">সামনের পাতা</a></li>
+    @endunless
+  </ul>
+@endif
