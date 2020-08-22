@@ -16,7 +16,13 @@
     <div class="container my-4">
         <div class="row">
             <div class="col-md-3">
-                @include('partials/_admin-dashboard-sidebar')
+                @is('administrator')
+                    @include('partials/_admin-dashboard-sidebar')
+                @endis
+
+                @is('merchant')
+                    @include('partials/_merchant-dashboard-sidebar')
+                @endis
             </div>
             <div class="col-md-8">
                 @!section('body')

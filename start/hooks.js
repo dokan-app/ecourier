@@ -11,8 +11,7 @@ hooks.after.providersBooted(() => {
     return JSON.stringify(data, undefined, 4);
   });
 
-  // handle `InvalidSessionException`
-  // Exception.handle("InvalidSessionException", (error, { response }) => {
-  //   return response.route("auth.user.login");
-  // });
+  Exception.handle("ForbiddenException", (error, { response }) => {
+    return response.redirect("/");
+  });
 });

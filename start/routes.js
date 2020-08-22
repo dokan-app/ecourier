@@ -43,15 +43,15 @@ Route.group(() => {
    *  User Authentication
    * ------------------------------------
    */
-  Route.on("login").render("auth.login").as("auth.user.login");
-  Route.on("register").render("auth.register").as("auth.user.register");
-  Route.post("login", "AuthController.login");
-  Route.post("register", "AuthController.registerMerchant");
-})
-  .prefix("auth")
-  .middleware("UnAuthenticatedUser");
+  Route.on("login").render("auth.login").as("auth.login");
+  Route.on("merchant/register")
+    .render("auth.register")
+    .as("auth.merchant.register");
 
-Route.group(() => {
+  Route.post("login", "AuthController.login");
+
+  Route.post("merchant/register", "AuthController.registerMerchant");
+
   /**
    * ------------------------------------
    *  Admin Authentication
@@ -62,25 +62,26 @@ Route.group(() => {
     .render("auth.admin.register")
     .as("auth.admin.register");
 
-  Route.post("admin/login", "AdminController.login");
-  Route.post("admin/register", "AdminController.register");
+  Route.post("admin/register", "AuthController.registerAdmin");
 })
   .prefix("auth")
-  .middleware("UnAuthenticatedAdmin");
-
-Route.post("auth/logout", "AuthController.logout").as("auth.logout");
+  .middleware("UnAuthenticated");
 
 /**
  * ------------------------------------------------
- *      User Dashboard
+ *      Metchant Dashboard
  * ------------------------------------------------
  */
 Route.group(() => {
-  Route.get("/", "UserDashboardController.states").as("user.dashboard");
+  Route.get("/", "MerchantDashboardController.states").as("user.dashboard");
   Route.resource("parcels", "PercelController");
 })
   .prefix("dashboard")
-  .middleware("AuthenticatedUser");
+  .middleware(["is:merchant"]);
+
+Route.post("auth/logout", "AuthController.logout")
+  .as("auth.logout")
+  .middleware(["Authenticated"]);
 
 /**
  * ------------------------------------------------
@@ -94,4 +95,4 @@ Route.group(() => {
   Route.resource("areas", "AreaController");
 })
   .prefix("admin-dashboard")
-  .middleware(["auth:admin", "AuthenticatedAdmin"]);
+  .middleware(["is:administrator"]);

@@ -4,7 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-class UserDashboardController {
+class MerchantDashboardController {
   /**
    * Show a list of all percels.
    * GET percels
@@ -15,8 +15,8 @@ class UserDashboardController {
    * @param {View} ctx.view
    */
   states({ request, response, view }) {
-    return view.render("user-dashboard.states");
+    return view.render("merchant-dashboard.states");
   }
 }
 
-module.exports = UserDashboardController;
+module.exports = MerchantDashboardController;

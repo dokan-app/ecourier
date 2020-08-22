@@ -2,7 +2,7 @@
 @section('body')
 <div class="container my-5">
     <div class="col-md-5 mx-auto">
-        <form action="{{ route('auth.user.register') }}" method="POST">
+        <form action="{{ route('auth.merchant.register') }}" method="POST">
             {{ csrfField() }}
             <div class="card">
                 <div class="card-body">
@@ -33,7 +33,7 @@
                     </div>
 
                     <p>
-                        ইতিমধ্যেই একাউন্ট আছে? <a href="{{ route('auth.user.login') }}">লগইন করুন</a>
+                        ইতিমধ্যেই একাউন্ট আছে? <a href="{{ route('auth.login') }}">লগইন করুন</a>
                     </p>
                 </div>
             </div>

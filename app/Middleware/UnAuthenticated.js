@@ -2,24 +2,22 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const Logger = use("Logger");
 
-class AuthenticatedAdmin {
+class UnAuthenticated {
   /**
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Function} next
    */
-  async handle({ response, auth }, next) {
+  async handle({ response, auth, session }, next) {
     try {
       await auth.check();
-      console.log("AuthenticatedAdmin: try");
+      session.flash({ successMsg: "আপনি পুর্ব থেকেই লগইন অবস্থায় রয়েছেন।" });
+      // response.route("user.dashboard");
     } catch (error) {
-      response.route("auth.admin.login");
-      console.log("AuthenticatedAdmin: catch");
+      await next();
     }
-    await next();
   }
 }
 
-module.exports = AuthenticatedAdmin;
+module.exports = UnAuthenticated;
