@@ -71,6 +71,8 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get("/", "AdminDashboardController.states").as("admin.dashboard");
+  Route.resource("zones", "ZoneController");
+  Route.resource("areas", "AreaController");
 })
   .prefix("admin-dashboard")
-  .middleware(["AuthenticatedAdmin", "auth:admin"]);
+  .middleware(["auth:admin"]);

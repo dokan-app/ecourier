@@ -11,12 +11,22 @@ class AuthenticatedAdmin {
    * @param {Function} next
    */
   async handle({ response, auth }, next) {
-    Logger.info("AuthenticatedAdmin");
-    console.log(JSON.stringify(auth, undefined, 4));
+    const authenticator = auth.authenticator("admin");
+    const check = await authenticator.check();
 
-    return response.json({
-      auth: 1,
+    response.json({
+      x: 12,
+      check,
     });
+
+    console.log("Hello");
+
+    // try {
+
+    // } catch (error) {
+    //   console.log("AuthenticatedAdmin: catch");
+    // }
+
     // await next();
   }
 }
