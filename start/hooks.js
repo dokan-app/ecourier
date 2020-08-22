@@ -12,7 +12,7 @@ hooks.after.providersBooted(() => {
   });
 
   // handle `InvalidSessionException`
-  Exception.handle("InvalidSessionException", (error, { response }) => {
-    return response.route("auth.user.login");
-  });
+  // Exception.handle("InvalidSessionException", (error, { response }) => {
+  //   return response.route("auth.user.login");
+  // });
 });

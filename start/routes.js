@@ -75,4 +75,4 @@ Route.group(() => {
   Route.resource("areas", "AreaController");
 })
   .prefix("admin-dashboard")
-  .middleware(["auth:admin"]);
+  .middleware(["auth:admin", "AuthenticatedAdmin"]);
