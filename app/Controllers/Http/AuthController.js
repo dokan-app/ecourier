@@ -9,6 +9,9 @@ const { route } = require("@adonisjs/framework/src/Route/Manager");
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const User = use("App/Models/User");
 
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+const Role = use("Role");
+
 /** @type {typeof import('adonisjs/validator')} */
 const { validateAll } = use("Validator");
 
@@ -48,9 +51,17 @@ class AuthController {
 
     const { email, password } = request.all();
     try {
-      await auth.attempt(email, password);
+      const user = await auth.attempt(email, password);
 
-      return response.route("user.dashboard");
+      const role = user.getRoles();
+
+      if (role.includes("merchant")) {
+        return response.route("user.dashboard");
+      }
+
+      if (role.includes("administrator")) {
+        return response.route("admin.dashboard");
+      }
     } catch (error) {
       session.flash({ errorMsg: "ইমেইল অথবা পাসোয়ার্ড ভুল করেছেন" });
       return response.redirect("back");
@@ -66,7 +77,12 @@ class AuthController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async register({ params, request, view, session, response }) {
+  async registerMerchant({ params, request, view, session, response }) {
+    /**
+     * Get merchant Role id
+     */
+    const { id: merchantRoleid } = await Role.findBy("slug", "merchant");
+
     const data = request.all();
     delete data._csrf;
 
@@ -101,7 +117,8 @@ class AuthController {
       return response.redirect("back");
     }
 
-    await User.create(data);
+    const user = await User.create(data);
+    await user.roles().attach([merchantRoleid]);
 
     session.flash({ successMsg: "আপনি সঠিক ভাবে নিবন্ধিত হয়েছেন" });
 
