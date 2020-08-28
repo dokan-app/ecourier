@@ -1,21 +1,33 @@
 @layout('layouts.dashboard')
 
 @section('body')
-    <div class="row">
-        <div class="col-md-8">
+    <div class="columns">
+        <div class="column is-6">
             <div class="card">
-                <div class="card-header">এরিয়া হালনাগাদ করুন</div>
-                <div class="card-body">
-                    <form action="{{ route('areas.update' , { id: area.id }) }}?_method=put" method="POST">
-                        {{csrfField()}}
-                        <div class="form-group">
-                            <label for="name">নাম</label>
-                            <input class="form-control {{ hasErrorFor('name') && 'is-invalid' }}" type="text" name="name" id="name" placeholder="এরিয়ার নাম" value="{{ old('name', area.name) }}">
-                            <span class="invalid-feedback">{{ getErrorFor('name') }}</span>
+                <div class="card-header">
+                    <div class="card-header-title">এরিয়া হালনাগাদ করুন</div>
+                </div>
+                <div class="card-content">
+                     <form action="{{ route('areas.update' , { id: area.id }) }}?_method=put" method="POST">
+                        {{ csrfField() }}
+                        <div class="field">
+                            <label class="label">নাম</label>
+                            <div class="control">
+                                <input 
+                                    class="input {{ hasErrorFor('name') && 'is-danger' }}" 
+                                    type="text" 
+                                    name="name"
+                                    value="{{ old('name', area.name) }}"
+                                    placeholder="জোন এর নাম">
+
+                                @if(hasErrorFor('name'))
+                                    <p class="help is-danger">{{ getErrorFor('name') }}</p>
+                                @endif
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <button class="btn btn-success btn-sm">সেভ করুন</button>
+                        <div class="field">
+                            <button class="button is-danger">সেভ করুন</button>
                         </div>
                     </form>
                 </div>

@@ -1,43 +1,94 @@
 @layout('layouts.main')
 @section('body')
-<div class="container my-5">
-    <div class="col-md-5 mx-auto">
-        <form action="{{ route('auth.merchant.register') }}" method="POST">
-            {{ csrfField() }}
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="name">আপনার নাম</label>
-                        <input class="form-control {{ hasErrorFor('name') && 'is-invalid' }}" type="text" name="name" id="name" placeholder="নাম" value="{{ old('name', '') }}">
-                        <span class="invalid-feedback">{{ getErrorFor('name') }}</span>
+    <div class="container my-32">
+        <div class="columns">
+            <div class="column is-4 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header-title">মার্চেন্ট হিসেবে নিবন্ধন করুন</h2>
                     </div>
-                    <div class="form-group">
-                        <label for="username">আপনার ইউজারনেম</label>
-                        <input class="form-control {{ hasErrorFor('username') && 'is-invalid' }}" type="text" name="username" id="username" placeholder="ইউজারনেম" value="{{ old('username') }}">
-                        <span class="invalid-feedback">{{ getErrorFor('username') }}</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">আপনার ইমেইল এড্রেস</label>
-                        <input class="form-control {{ hasErrorFor('email') && 'is-invalid' }}" type="text" name="email" id="email" placeholder="ইমেইল এড্রেস" value="{{ old('email') }}">
-                        <span class="invalid-feedback">{{ getErrorFor('email') }}</span>
-                    </div>
-               
-                    <div class="form-group">
-                        <label for="password">পাসওয়ার্ড</label>
-                        <input class="form-control {{ hasErrorFor('password') && 'is-invalid' }}" type="password" name="password" id="password" placeholder="পাসওয়ার্ড">
-                        <span class="invalid-feedback">{{ getErrorFor('password') }}</span>
-                    </div>
-               
-                    <div class="form-group">
-                       <button class="btn btn-success btn-sm">নিবন্ধন করুন</button>
-                    </div>
+                    <div class="card-content">
+                        <form action="{{ route('auth.merchant.register') }}" method="POST">{{ csrfField() }}
+                        <div class="field">
+                            <label for="name">আপনার নাম</label>
+                            <div class="control has-icons-left">
+                                <input 
+                                    class="input {{ hasErrorFor('name') && 'is-danger' }}" 
+                                    placeholder="আপনার নাম"
+                                    type="text" 
+                                    name="name" 
+                                    id="name">
+                                <span class="icon is-left">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                @if(hasErrorFor('name'))
+                                    <p class="help is-danger">{{ getErrorFor('name') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="username">আপনার ইউজারনেম</label>
+                            <div class="control has-icons-left">
+                                <input 
+                                    class="input {{ hasErrorFor('username') && 'is-danger' }}" 
+                                    placeholder="আপনার ইউজারনেম"
+                                    type="text" 
+                                    name="username" 
+                                    id="username">
+                                <span class="icon is-left">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                @if(hasErrorFor('username'))
+                                    <p class="help is-danger">{{ getErrorFor('username') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="email">ইমেইল</label>
+                            <div class="control has-icons-left">
+                                <input 
+                                    class="input {{ hasErrorFor('email') && 'is-danger' }}" 
+                                    placeholder="আপনার ইমেইল এড্রেস"
+                                    type="email" 
+                                    name="email" 
+                                    id="email">
+                                <span class="icon is-left">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                                @if(hasErrorFor('email'))
+                                    <p class="help is-danger">{{ getErrorFor('email') }}</p>
+                                @endif
+                            </div>
+                        </div>
 
-                    <p>
-                        ইতিমধ্যেই একাউন্ট আছে? <a href="{{ route('auth.login') }}">লগইন করুন</a>
-                    </p>
+                        <div class="field">
+                            <label for="password">পাসোয়ার্ড</label>
+                            <div class="control has-icons-left">
+                                <input 
+                                    class="input {{ hasErrorFor('password') && 'is-danger' }}" 
+                                    placeholder="আপনার পাসোয়ার্ড"
+                                    type="password" 
+                                    name="password" 
+                                    id="password">
+                                <span class="icon is-left">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                @if(hasErrorFor('password'))
+                                    <p class="help is-danger">{{ getErrorFor('password') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="field">
+                            <button class="button is-danger is-small">নিবন্ধন করুন</button>
+                        </div>
+                        </form>
+                        {{--    --}}
+                    </div>
                 </div>
+                <p class="text-center my-4">
+                    ইতিমধ্যেই একাউন্ট আছে? <a class="has-text-danger" href="{{ route('auth.login') }}">লগইন করুন</a>
+                </p>
             </div>
-        </form>
+        </div>
     </div>
-</div>
 @endsection
