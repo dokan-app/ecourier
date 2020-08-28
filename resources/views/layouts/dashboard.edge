@@ -5,35 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Courier</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="/css/app.css">
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
     @!section('headerHook')
 
 </head>
 <body>
+    
     @include('partials/_navbar')
     @include('partials/_alert')
-    <div class="container my-4">
-        <div class="row">
-            <div class="col-md-3">
-                @is('administrator')
-                    @include('partials/_admin-dashboard-sidebar')
-                @endis
+    <main>
+        <div class="container is-fluid my-5">
+            <div class="columns">
+                <div class="column is-3 has-background-light">
+                    @is('administrator')
+                        @include('partials/_admin-dashboard-sidebar')
+                    @endis
 
-                @is('merchant')
-                    @include('partials/_merchant-dashboard-sidebar')
-                @endis
-            </div>
-            <div class="col-md-8">
-                @!section('body')
+                    @is('merchant')
+                        @include('partials/_merchant-dashboard-sidebar')
+                    @endis
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                            @!section('body')
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-@!section('footerHook')
+    </main>
+    @include('partials/_footer')
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    @!section('footerHook')
 </body>
 </html>

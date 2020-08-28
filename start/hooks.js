@@ -7,16 +7,16 @@ var bnNum = function bnNum(num) {
     arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
   var banglaNumber = {
-    "0": "০",
-    "1": "১",
-    "2": "২",
-    "3": "৩",
-    "4": "৪",
-    "5": "৫",
-    "6": "৬",
-    "7": "৭",
-    "8": "৮",
-    "9": "৯",
+    0: "০",
+    1: "১",
+    2: "২",
+    3: "৩",
+    4: "৪",
+    5: "৫",
+    6: "৬",
+    7: "৭",
+    8: "৮",
+    9: "৯",
   };
   var str = "" + num.toLocaleString("bn-BD", { useGrouping: komma });
 
@@ -33,6 +33,10 @@ hooks.after.providersBooted(() => {
 
   View.global("dump", function (data) {
     return JSON.stringify(data, undefined, 4);
+  });
+
+  View.global("publicUrl", function (data) {
+    return Env.get("APP_URL") + "/" + data;
   });
 
   View.global("paginationArray", (length) => {

@@ -38,10 +38,10 @@ class AuthController {
         password: "required",
       },
       {
-        "email.required": "ইমেইল দিতেই হবে",
+        "email.required": "ইমেইল দেননি",
         "email.email": "ইমেইল এড্রেস সঠিক নয়",
 
-        "password.min": "পাসসোয়ার্ড দিতেই হবে",
+        "password.required": "পাসসোয়ার্ড দেননি",
       }
     );
 

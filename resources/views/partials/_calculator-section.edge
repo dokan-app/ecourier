@@ -1,0 +1,85 @@
+<div x-data="calculator()" x-init="init">
+<section class="section">
+    <div class="contaner">
+        <div class="text-center my-3 sm:w-2/4 w-full mx-auto">
+            <h3 class="text-3xl">ডেলিভারি চার্জ ক্যালকুলেটর</h3>
+            <div class="h-1 w-20 bg-red-500 inline-block"></div>
+            <!-- Button set start -->
+            <div class="mt-5">
+                <button 
+                @click="location = 0"
+                class="button is-danger is-rounded mr-5 transition duration-300" :class="{ 'is-outlined': location != 0 }">
+                    ঢাকা সিটি
+                </button>
+
+                <button 
+                @click="location = 1"
+                class="button is-danger is-rounded mr-5 transition duration-300" :class="{ 'is-outlined': location != 1 }">
+                    ঢাকার আশেপাশে
+                </button>
+
+                <button 
+                @click="location = 2"
+                class="button is-danger is-rounded transition duration-300" :class="{ 'is-outlined': location != 2 }">
+                    ঢাকার বাহিরে
+                </button>
+            </div>
+            <!-- button set end -->
+            <h1 x-text="location"></h1>
+            <div class="mt-8">
+                <h4 class="text-2xl">আপনার প্রোডাক্ট এর ওজন কত?</h4>
+                <div>
+                    <input type="range" min="1" max="5" class="w-32" x-model="weight">
+                    <span><span x-text="weight"></span> কেজি</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <div class="text-center bg-red-600 text-white py-4">
+        <h2 class="text-2xl">আপনার ডেলিভারি চার্জ</h2>
+        <h3>৳<span x-text="price"></span> + <span x-text="cod"></span>% COD চার্জ</h3>
+    </div>
+</div>
+
+<script>
+    function calculator(){
+        return {
+            location: 0,
+            weight: 1,
+            price: 60,
+            cod: 0,
+            init(){
+                this.$watch('location' , locationIndex => {
+                    if(locationIndex === 0) {
+                        this.cod = 0;
+                        this.price = 60;
+                    }
+                    if(locationIndex === 1) {
+                        this.cod = 1;
+                        this.price = 100;
+                    }
+                    if(locationIndex === 2) {
+                        this.cod = 1;
+                        this.price = 130;
+                    }
+                })
+                this.$watch('weight' , weight => {
+                    if(this.location == 0){
+                        if(weight === 1) this.price = 60;
+
+                        this.price = 60 + (weight * 15)
+                    }
+                    if(this.location == 1){
+                        if(weight == 1) this.price = 100;
+                        this.price = 60 + (weight * 15)
+                    }
+                    if(this.location == 2){
+                        if(weight == 1) this.price = 130;
+                        this.price = 60 + (weight * 30)
+                    }
+                })
+            }
+        }
+    }
+</script>

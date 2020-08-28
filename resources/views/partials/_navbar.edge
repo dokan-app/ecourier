@@ -1,56 +1,39 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">eCourier</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-
-    @loggedIn
-    <form action="{{ route('auth.logout') }}" id="logout-form" method="POST">
-        {{ csrfField() }}
-    </form>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <div class="btn-group">
-          <div class="user-menu" data-toggle="dropdown">
-            <span class="user-menu__photo overflow-hidden">
-              <img class="rounded-circle" src="{{ getAvater(auth.user.email) }}" alt="{{ auth.user.name }}">
-            </span>
-            <span class="user-menu__name">
-              {{ auth.user.name }}
-            </span>  
-          </div>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ route('user.dashboard') }}">ড্যাসবোর্ড</a>
-            <a class="dropdown-item" href="#">অর্ডার সমূহ</a>
-            <a class="dropdown-item" href="#">নতুন পার্সেল</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="javascript:void(0)" onclick="confirm('Sure to logout') && document.getElementById('logout-form').submit()">লগআউট করুন</a>
-          </div>
-        </div>
-      </li>
-    </ul>
-    @else
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('auth.login') }}">লগইন</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('auth.merchant.register') }}">নিবন্ধন</a>
-      </li>
-    </ul>
-    @endloggedIn
+<div class="navbar shadow">
+  <div class="navbar-brand">
+    <div class="navbar-item">
+      <h3><a href="{{ route('pages.home') }}">ই কোরিয়ার</a></h3>
+    </div>
   </div>
-</nav>
+  <div class="navbar-menu">
+    <div class="navbar-end">
+      @loggedIn
+      <form action="{{ route('auth.logout') }}" id="logout-form" method="POST">
+          {{ csrfField() }}
+      </form>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <div class="navbar-link">
+          <img class="mr-2 rounded-full" src="{{ getAvater(auth.user.email) }}" alt="{{ auth.user.name }}">
+          {{ auth.user.name }}
+        </div>
+        <div class="navbar-dropdown">
+          @is('administrator')
+            <a class="navbar-item" href="{{ route('admin.dashboard') }}">এডমিন ড্যাসবোর্ড</a>
+          @endis
+
+          @is('merchant')
+            <a class="navbar-item" href="{{ route('merchant.dashboard') }}">ড্যাসবোর্ড</a>
+          @endis
+          <a class="navbar-item" href="javascript:void(0)" onclick="confirm('Sure to logout') && document.getElementById('logout-form').submit()">লগআউট করুন</a>
+        </div>
+      </div>
+      @else
+      <div class="navbar-item">
+        <a href="{{ route('auth.login') }}" class="button">লগইন</a>
+      </div>
+      <div class="navbar-item">
+        <a href="{{ route('auth.merchant.register') }}" class="button is-danger"> নিবন্ধন </a>
+      </div>
+      @endloggedIn
+    </div>
+  </div>
+</div>

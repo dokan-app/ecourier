@@ -35,8 +35,6 @@ const Role = use("Role");
   }
 })();
 
-Route.on("/").render("welcome");
-
 Route.group(() => {
   /**
    * ------------------------------------
@@ -73,7 +71,7 @@ Route.group(() => {
  * ------------------------------------------------
  */
 Route.group(() => {
-  Route.get("/", "MerchantDashboardController.states").as("user.dashboard");
+  Route.get("/", "MerchantDashboardController.states").as("merchant.dashboard");
   Route.resource("parcels", "PercelController");
 })
   .prefix("dashboard")
@@ -96,3 +94,5 @@ Route.group(() => {
 })
   .prefix("admin-dashboard")
   .middleware(["is:administrator"]);
+
+Route.on("/").render("pages.home").as("pages.home");
