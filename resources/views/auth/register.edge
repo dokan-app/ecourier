@@ -8,7 +8,8 @@
                         <h2 class="card-header-title">মার্চেন্ট হিসেবে নিবন্ধন করুন</h2>
                     </div>
                     <div class="card-content">
-                        <form action="{{ route('auth.merchant.register') }}" method="POST">{{ csrfField() }}
+                        <form action="{{ route('auth.merchant.register') }}" method="POST">
+                        {{ csrfField() }}
                         <div class="field">
                             <label for="name">আপনার নাম</label>
                             <div class="control has-icons-left">
@@ -17,7 +18,8 @@
                                     placeholder="আপনার নাম"
                                     type="text" 
                                     name="name" 
-                                    id="name">
+                                    id="name" 
+                                    value="{{ old('name') }}">
                                 <span class="icon is-left">
                                     <i class="fa fa-user"></i>
                                 </span>
@@ -75,6 +77,23 @@
                                 </span>
                                 @if(hasErrorFor('password'))
                                     <p class="help is-danger">{{ getErrorFor('password') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="password_confirmation">পাসোয়ার্ড আরেকবার</label>
+                            <div class="control has-icons-left">
+                                <input 
+                                    class="input {{ hasErrorFor('password_confirmation') && 'is-danger' }}" 
+                                    placeholder="আপনার পাসোয়ার্ড আরেকবার"
+                                    type="password" 
+                                    name="password_confirmation" 
+                                    id="password_confirmation">
+                                <span class="icon is-left">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                @if(hasErrorFor('password_confirmation'))
+                                    <p class="help is-danger">{{ getErrorFor('password_confirmation') }}</p>
                                 @endif
                             </div>
                         </div>

@@ -17,6 +17,11 @@ const Role = use("Role");
 /** @type {typeof import('adonisjs/validator')} */
 const { validateAll } = use("Validator");
 
+/** @type {import('@adonisjs/framework/src/Hash')} */
+const Hash = use("Hash");
+
+const Persona = use("Persona");
+
 class AuthController {
   /**
    * Show a list of all percels.
@@ -27,46 +32,26 @@ class AuthController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async login({ params, request, view, session, response, auth }) {
+  async login({ request, auth, session, response }) {
     const data = request.all();
     delete data._csrf;
 
-    const validation = await validateAll(
-      data,
-      {
-        email: "required|email",
-        password: "required",
-      },
-      {
-        "email.required": "ইমেইল দেননি",
-        "email.email": "ইমেইল এড্রেস সঠিক নয়",
+    const user = await Persona.verify(request.only(["uid", "password"]));
 
-        "password.required": "পাসসোয়ার্ড দেননি",
-      }
-    );
-
-    if (validation.fails()) {
-      session.flash({ errorMsg: "কিছু ভুল করেছেন, দয়া করে ঠিক করুন।" });
-      session.withErrors(validation.messages());
+    if (!user) {
+      session.flash({ errorMsg: "ইমেইল অথবা ইউজারনেম পাসোয়ার্ড ভুল করেছেন" });
       return response.redirect("back");
     }
 
-    const { email, password } = request.all();
-    try {
-      const user = await auth.attempt(email, password);
+    await auth.login(user);
+    const role = await user.getRoles();
 
-      const role = await user.getRoles();
+    if (role.includes("merchant")) {
+      return response.route("merchant.dashboard");
+    }
 
-      if (role.includes("merchant")) {
-        return response.route("user.dashboard");
-      }
-
-      if (role.includes("administrator")) {
-        return response.route("admin.dashboard");
-      }
-    } catch (error) {
-      session.flash({ errorMsg: "ইমেইল অথবা পাসোয়ার্ড ভুল করেছেন" });
-      return response.redirect("back");
+    if (role.includes("administrator")) {
+      return response.route("admin.dashboard");
     }
   }
 
@@ -94,7 +79,7 @@ class AuthController {
         name: "required|min:3",
         username: "required|min:3|unique:users,username",
         email: "required|email|unique:users,email",
-        password: "required|min:5|max:50",
+        password: "required|confirmed|min:5|max:50",
       },
       {
         "name.required": "নাম দিতেই হবে",
@@ -107,9 +92,10 @@ class AuthController {
         "email.email": "ইমেইল এড্রেস সঠিক নয়",
         "email.unique": "ইতিপুর্বে এই ইমেইল ব্যবহার করা হয়েগেছে",
 
-        "password.min": "কমপক্ষে দিতেই হবে",
+        "password.min": "কমপক্ষে ৫টি অক্ষর থাকতেই হবে",
         "username.min": "কমপক্ষে ৫টি অক্ষর থাকতেই হবে",
         "username.max": "সর্বোচ্চ ৫০টি অক্ষর দিতে পারবেন",
+        "password.confirmed": "পাসওয়ার্ড মিলেনি",
       }
     );
 
@@ -119,7 +105,9 @@ class AuthController {
       return response.redirect("back");
     }
 
-    const user = await User.create(data);
+    const user = await Persona.register(data);
+
+    // const user = await User.create(data);
     await user.roles().attach([merchantRoleid]);
 
     session.flash({ successMsg: "আপনি সঠিক ভাবে নিবন্ধিত হয়েছেন" });
@@ -204,6 +192,58 @@ class AuthController {
     session.flash({ successMsg: "সফলভাবে লগআউট করেছেন।" });
 
     return response.route("auth.login");
+  }
+
+  async updateProfile({ auth, session, response, request }) {
+    const data = request.all();
+    delete data._csrf;
+
+    const user = auth.user;
+
+    const validation = await validateAll(
+      data,
+      {
+        name: "required|min:3",
+        username: `required|min:3|unique:users,username,id,${user.id}`,
+        email: `required|email|unique:users,email,id,${user.id}`,
+      },
+      {
+        "name.required": "নাম দিতেই হবে",
+        "name.min": "কমপক্ষে ৩টি অক্ষর থাকতেই হবে",
+
+        "username.required": "ইউজারনেম দিতেই হবে",
+        "username.min": "কমপক্ষে ৩টি অক্ষর থাকতেই হবে",
+
+        "email.required": "ইমেইল দিতেই হবে",
+        "email.email": "ইমেইল এড্রেস সঠিক নয়",
+        "email.unique": "ইতিপুর্বে এই ইমেইল ব্যবহার করা হয়েগেছে",
+      }
+    );
+
+    if (validation.fails()) {
+      session.flash({ errorMsg: "কিছু ভুল করেছেন, দয়া করে ঠিক করুন।" });
+      session.withErrors(validation.messages());
+      return response.redirect("back");
+    }
+
+    await Persona.updateProfile(user, data);
+    session.flash({ successMsg: "সফলভাবে হালনাদ হয়েছে" });
+
+    return response.redirect("back");
+  }
+
+  async updatePassword({ auth, session, response, request }) {
+    const payload = request.only([
+      "old_password",
+      "password",
+      "password_confirmation",
+    ]);
+
+    const user = auth.user;
+    await Persona.updatePassword(user, payload);
+    session.flash({ successMsg: "সফল ভাবে হালনাগাদ হয়েছে" });
+
+    return response.redirect("back");
   }
 }
 

@@ -83,6 +83,23 @@ Route.post("auth/logout", "AuthController.logout")
 
 /**
  * ------------------------------------------------
+ *      Metchant Dashboard
+ * ------------------------------------------------
+ */
+Route.group(() => {
+  Route.on("profile").render("settings.profile").as("settings.profile");
+  // Route.on("/").render("settings.password").as("settings.password");
+
+  Route.post("profile", "AuthController.updateProfile").as("settings.profile");
+  Route.post("password", "AuthController.updatePassword").as(
+    "settings.password"
+  );
+})
+  .prefix("settings")
+  .middleware(["Authenticated"]);
+
+/**
+ * ------------------------------------------------
  *      Admin Dashboard
  * ------------------------------------------------
  */
@@ -93,6 +110,6 @@ Route.group(() => {
   Route.resource("areas", "AreaController");
 })
   .prefix("admin-dashboard")
-  .middleware(["is:administrator"]);
+  .middleware(["Authenticated", "is:administrator"]);
 
 Route.on("/").render("pages.home").as("pages.home");

@@ -12,5 +12,14 @@
         class="{{ request.url().includes(route('areas.index')) && 'is-active' }}" 
         href="{{ route('areas.index') }}">এরিয়াসমূহ</a></li>
   </ul>
+
+
+  <div class="menu-label">Accounts</div>
+  <div class="menu-list">
+    <ul>
+      <li><a href="{{ route('settings.profile') }}">প্রোফাইল হালনাগাদ</a></li>
+      <li><a href="{{ route('settings.password') }}">পাসওয়ার্ড হালনাগাদ</a></li>
+    </ul>
+  </div>
   
 </aside>

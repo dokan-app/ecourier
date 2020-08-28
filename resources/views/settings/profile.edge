@@ -1,0 +1,14 @@
+@layout('layouts.dashboard')
+
+@section('body')
+    <div class="columns">
+        <div class="column is-6">
+            @include('settings._profile-settings')
+        </div>
+        
+        <div class="column is-6">
+            @include('settings._password-settings')
+        </div>  
+      
+    </div>
+@endsection

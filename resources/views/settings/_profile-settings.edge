@@ -1,0 +1,62 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-header-title">আপনার প্রোফাইল হালনাগাদ করুন</div>
+    </div>
+    <div class="card-content">
+        <form action="{{ route('settings.profile') }}" method="POST">
+            {{ csrfField() }}
+            <div class="field">
+                <label class="label" for="name">নাম</label>
+                <div class="control">
+                    <input 
+                        class="input {{ hasErrorFor('name') && 'is-danger' }}" 
+                        type="text" 
+                        name="name"
+                        id="name"
+                        value="{{ old('name', auth.user.name) }}"
+                        placeholder="আপনার নাম">
+
+                    @if(hasErrorFor('name'))
+                        <p class="help is-danger">{{ getErrorFor('name') }}</p>
+                    @endif
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="username">ইউজারনেম</label>
+                <div class="control">
+                    <input 
+                        class="input {{ hasErrorFor('username') && 'is-danger' }}" 
+                        type="text" 
+                        name="username"
+                        id="username"
+                        value="{{ old('name', auth.user.username) }}"
+                        placeholder="আপনার ইউজারনেম">
+
+                    @if(hasErrorFor('username'))
+                        <p class="help is-danger">{{ getErrorFor('username') }}</p>
+                    @endif
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="email">ইমেইল</label>
+                <div class="control">
+                    <input 
+                        class="input {{ hasErrorFor('username') && 'is-danger' }}" 
+                        type="email" 
+                        name="email"
+                        id="email"
+                        value="{{ old('email', auth.user.email) }}"
+                        placeholder="আপনার ইউজারনেম">
+
+                    @if(hasErrorFor('email'))
+                        <p class="help is-danger">{{ getErrorFor('email') }}</p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="field">
+                <button class="button is-danger">সেভ করুন</button>
+            </div>
+        </form>
+    </div>
+</div>

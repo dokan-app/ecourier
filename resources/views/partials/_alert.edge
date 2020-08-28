@@ -1,12 +1,12 @@
 @if(flashMessage('errorMsg'))
-    <div class="notification is-danger rounded-none absolute w-full top-0 left-0 z-30">
+    <div class="notification text-center is-danger rounded-none absolute w-full top-0 left-0 z-30">
         <span>{{ flashMessage('errorMsg') }}</span>
         <button class="delete" onclick="this.parentElement.remove()"></button> 
     </div>
 @endif
 
 @if(flashMessage('successMsg'))
-    <div class="notification is-success rounded-none absolute w-full top-0 left-0 z-30">
+    <div class="notification text-center is-success rounded-none absolute w-full top-0 left-0 z-30">
         <span>{{ flashMessage('successMsg') }}</span>
         <button class="delete" onclick="this.parentElement.remove()"></button> 
     </div>

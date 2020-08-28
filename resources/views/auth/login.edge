@@ -10,19 +10,19 @@
                     <div class="card-content">
                         <form action="{{ route('auth.login') }}" method="POST">{{ csrfField() }}
                         <div class="field">
-                            <label for="email">ইমেইল</label>
+                            <label for="email">ইমেইল অথবা ইউজারনেম</label>
                             <div class="control has-icons-left">
                                 <input 
-                                    class="input {{ hasErrorFor('email') && 'is-danger' }}" 
-                                    placeholder="আপনার ইমেইল এড্রেস"
-                                    type="email" 
-                                    name="email" 
-                                    id="email">
+                                    class="input {{ hasErrorFor('uid') && 'is-danger' }}" 
+                                    placeholder="আপনার ইমেইল এড্রেস অথবা ইউজারনেম"
+                                    type="text" 
+                                    name="uid" 
+                                    id="uid" value="{{ old('uid') }}">
                                 <span class="icon is-left">
                                     <i class="fa fa-user"></i>
                                 </span>
-                                @if(hasErrorFor('email'))
-                                    <p class="help is-danger">{{ getErrorFor('email') }}</p>
+                                @if(hasErrorFor('uid'))
+                                    <p class="help is-danger">{{ getErrorFor('uid') }}</p>
                                 @endif
                             </div>
                         </div>

@@ -1,0 +1,72 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn
+
+PATH: 
+  /Users/kingrayhan/google-cloud-sdk/bin:/Users/kingrayhan/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/google-cloud-sdk/bin:/Users/kingrayhan/flutter/bin:/Users/kingrayhan/mongodb/bin
+
+Yarn version: 
+  1.19.1
+
+Node version: 
+  12.18.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/kingrayhan/Library/Caches/Yarn/v6/npm-@dabh-diagnostics-2.0.2-290d08f7b381b8f94607dc8f471a12c675f9db31-integrity/node_modules/@dabh/diagnostics/.yarn-metadata.json: Unexpected token n in JSON at position 18777
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:304:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:315:13
+
+npm manifest: 
+  {
+    "name": "ecourier-app",
+    "version": "4.1.0",
+    "adonis-version": "4.1.0",
+    "description": "The fullstack application boilerplate for Adonisjs",
+    "main": "index.js",
+    "scripts": {
+      "start": "node server.js",
+      "dev": "nodemon server.js",
+      "test": "node ace test"
+    },
+    "keywords": [
+      "adonisjs",
+      "adonis-app"
+    ],
+    "author": "",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+      "@adonisjs/ace": "^5.0.8",
+      "@adonisjs/auth": "^3.0.7",
+      "@adonisjs/bodyparser": "^2.0.5",
+      "@adonisjs/cors": "^1.0.7",
+      "@adonisjs/fold": "^4.0.9",
+      "@adonisjs/framework": "^5.0.9",
+      "@adonisjs/ignitor": "^2.0.8",
+      "@adonisjs/lucid": "^6.1.3",
+      "@adonisjs/session": "^1.0.27",
+      "@adonisjs/shield": "^1.0.8",
+      "@adonisjs/validator": "^5.0.6",
+      "adonis-acl": "^1.1.1",
+      "md5": "^2.3.0",
+      "pg": "^8.3.2",
+      "tailwindcss": "^1.7.5"
+    },
+    "devDependencies": {
+      "bulma-scss": "^0.9.0-1"
+    },
+    "autoload": {
+      "App": "./app"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
