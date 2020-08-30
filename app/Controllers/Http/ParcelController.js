@@ -36,6 +36,7 @@ class ParcelController {
       .with("shop")
       .with("area")
       .with("zone")
+      .orderBy("created_at", "desc")
       .paginate(request.input("page", 1), 12);
     return view.render("parcels.index", {
       parcels: parcels.toJSON(),
