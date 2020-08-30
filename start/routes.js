@@ -18,19 +18,19 @@ const Route = use("Route");
 const Role = use("Role");
 
 
-Route.get('/migrate-role', async function () {
-  const roleAdmin = new Role();
-  roleAdmin.name = "Administrator";
-  roleAdmin.slug = "administrator";
-  roleAdmin.description = "manage administration privileges";
-  await roleAdmin.save();
+// Route.get('/migrate-role', async function () {
+//   const roleAdmin = new Role();
+//   roleAdmin.name = "Administrator";
+//   roleAdmin.slug = "administrator";
+//   roleAdmin.description = "manage administration privileges";
+//   await roleAdmin.save();
 
-  const userRole = new Role();
-  userRole.name = "Merchant";
-  userRole.slug = "merchant";
-  userRole.description = "manage merchantizer privileges";
-  await userRole.save();
-})
+//   const userRole = new Role();
+//   userRole.name = "Merchant";
+//   userRole.slug = "merchant";
+//   userRole.description = "manage merchantizer privileges";
+//   await userRole.save();
+// })
 
 
 Route.group(() => {
