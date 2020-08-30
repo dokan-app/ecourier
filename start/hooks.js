@@ -1,8 +1,6 @@
 "use strict";
 
-const {
-  hooks
-} = require("@adonisjs/ignitor");
+const { hooks } = require("@adonisjs/ignitor");
 const moment = require("moment");
 
 var bnNum = function bnNum(num) {
@@ -21,9 +19,11 @@ var bnNum = function bnNum(num) {
     8: "৮",
     9: "৯",
   };
-  var str = "" + num.toLocaleString("bn-BD", {
-    useGrouping: komma
-  });
+  var str =
+    "" +
+    num.toLocaleString("bn-BD", {
+      useGrouping: komma,
+    });
 
   for (var x in banglaNumber) {
     str = str.replace(new RegExp(x, "g"), banglaNumber[x]);
@@ -33,6 +33,7 @@ var bnNum = function bnNum(num) {
 
 hooks.after.providersBooted(() => {
   const View = use("View");
+  /** @type {import('@adonisjs/framework/src/Env')} */
   const Env = use("Env");
   const Exception = use("Exception");
 
@@ -44,12 +45,12 @@ hooks.after.providersBooted(() => {
   });
 
   View.global("publicUrl", function (data) {
-    return Env.get("APP_URL") + "/" + data;
+    return Env.getOrFail("APP_URL") + "/" + data;
   });
 
   View.global("paginationArray", (length) => {
     return Array.from({
-      length
+      length,
     }).map((page, i) => ++i);
   });
 
@@ -67,9 +68,7 @@ hooks.after.providersBooted(() => {
     return `https://www.gravatar.com/avatar/${md5($mail)}?s=300&d=mm`;
   });
 
-  Exception.handle("ForbiddenException", (error, {
-    response
-  }) => {
+  Exception.handle("ForbiddenException", (error, { response }) => {
     return response.redirect("/");
   });
 });

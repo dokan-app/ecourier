@@ -15,7 +15,7 @@ module.exports = {
   |
   */
 
-  name: Env.get("APP_NAME"),
+  name: Env.getOrFail("APP_NAME"),
 
   /*
   |--------------------------------------------------------------------------
