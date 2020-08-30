@@ -40,7 +40,8 @@
   },
   "devDependencies": {
     "@now/node-server": "^0.8.2",
-    "bulma-scss": "^0.9.0-1"
+    "bulma-scss": "^0.9.0-1",
+    "bulma-timeline": "^3.0.4"
   },
   "autoload": {
     "App": "./app"

@@ -780,6 +780,11 @@ bulma-scss@^0.9.0-1:
   resolved "https://registry.yarnpkg.com/bulma-scss/-/bulma-scss-0.9.0-1.tgz#af7af26d927076c66d09cd979aacfd8feef16b35"
   integrity sha512-cOZFITkQii6YT0ff+P9FDTORFd2UquRzqb38CHYXVLHQDbiqKJG8cmmYzRXjA7jvEVkQy7I4897CVVG7XYeAkw==
 
+bulma-timeline@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/bulma-timeline/-/bulma-timeline-3.0.4.tgz#494f458098a06dcf8dcc7fe8f2f158b63d1d1ef2"
+  integrity sha512-gCUOcSUuzHoeVMkCpLF49j5Z5yl78XQ+KgJcT+1ju5WIGgBgVytRUob/dw5NHAxPLO2rmcvwYNbCJFp7w4WT4Q==
+
 bytes@3.1.0, bytes@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"

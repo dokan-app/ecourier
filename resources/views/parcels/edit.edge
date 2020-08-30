@@ -27,7 +27,7 @@
           if (weight == 1) {
             this.delivary_charge = 60
           } else {
-            this.delivary_charge = 60 + (weight * 15)
+            this.delivary_charge = 60 + ((weight - 1) * 15)
           }
         })
        
@@ -124,42 +124,6 @@
                 </div>
               </div>
               <div class="field">
-                <label class="label">এরিয়া</label>
-                <div class="control has-icons-left">
-                  <select class="select2 w-full" name="area_id">
-                    <option value="">...</option>
-                    @each(item in areas.toJSON())
-                    <option 
-                      @if(item.id == parcel.area_id)
-                        selected
-                      @endif
-                    value="{{ item.id }}">{{ item.name }}</option>
-                    @endeach
-                  </select>
-                  @if(hasErrorFor('area_id'))
-                  <p class="help is-danger">{{ getErrorFor('area_id') }}</p>
-                  @endif
-                </div>
-              </div>
-              <div class="field">
-                <label class="label">জোন</label>
-                <div class="control has-icons-left">
-                  <select class="select2 w-full" name="zone_id">
-                    <option value="">...</option>
-                    @each(item in zones.toJSON())
-                    <option 
-                      @if(item.id == parcel.zone_id)
-                        selected
-                      @endif
-                    value="{{ item.id }}">{{ item.name }}</option>
-                    @endeach
-                  </select>
-                  @if(hasErrorFor('zone_id'))
-                  <p class="help is-danger">{{ getErrorFor('zone_id') }}</p>
-                  @endif
-                </div>
-              </div>
-              <div class="field">
                 <label class="label">পার্সেল এর ওজন</label>
                 <div>
                   <input class="w-9/12" type="range" name="weight" min="1" max="5" x-model="weight" value="{{ old('weight' , parcel.weight) }}">
@@ -202,7 +166,7 @@
             </div>
           </div>
           <div class="field mt-4">
-            <button class="button is-danger is-fullwidth">অর্ডার করুন</button>
+            <button class="button is-danger is-fullwidth">হালনাগাদ করুন</button>
           </div>
         </div>
       </div>

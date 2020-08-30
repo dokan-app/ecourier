@@ -112,8 +112,12 @@ Route.group(() => {
   Route.get("/", "AdminDashboardController.states").as("admin.dashboard");
   Route.resource("zones", "ZoneController");
   Route.resource("areas", "AreaController");
+  Route.resource("parcels-admin", "ParcelAdminController");
+  Route.resource("tracker", "TrackerController");
 })
   .prefix("admin-dashboard")
   .middleware(["Authenticated", "is:administrator"]);
 
 Route.on("/").render("pages.home").as("pages.home");
+
+Route.get("tracker", "TrackerController.publicTracker").as("tracker.public");

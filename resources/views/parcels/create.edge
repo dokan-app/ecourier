@@ -27,7 +27,7 @@
           if (weight == 1) {
             this.delivary_charge = 60
           } else {
-            this.delivary_charge = 60 + (weight * 15)
+            this.delivary_charge = 60 + ((weight - 1) * 15)
           }
         })
        
@@ -115,34 +115,6 @@
                   </select>
                   @if(hasErrorFor('area_id'))
                   <p class="help is-danger">{{ getErrorFor('area_id') }}</p>
-                  @endif
-                </div>
-              </div>
-              <div class="field">
-                <label class="label">এরিয়া</label>
-                <div class="control has-icons-left">
-                  <select class="select2 w-full" name="area_id">
-                    <option value="">...</option>
-                    @each(item in areas.toJSON())
-                    <option value="{{ item.id }}">{{ item.name }}</option>
-                    @endeach
-                  </select>
-                  @if(hasErrorFor('area_id'))
-                  <p class="help is-danger">{{ getErrorFor('area_id') }}</p>
-                  @endif
-                </div>
-              </div>
-              <div class="field">
-                <label class="label">জোন</label>
-                <div class="control has-icons-left">
-                  <select class="select2 w-full" name="zone_id">
-                    <option value="">...</option>
-                    @each(item in zones.toJSON())
-                    <option value="{{ item.id }}">{{ item.name }}</option>
-                    @endeach
-                  </select>
-                  @if(hasErrorFor('zone_id'))
-                  <p class="help is-danger">{{ getErrorFor('zone_id') }}</p>
                   @endif
                 </div>
               </div>

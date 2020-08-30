@@ -54,12 +54,8 @@ class ParcelController {
   async create({ request, response, view, auth }) {
     const user = auth.user;
     const shops = await user.shops().fetch();
-    const zones = await Zone.all();
-    const areas = await Area.all();
 
     return view.render("parcels.create", {
-      zones,
-      areas,
       shops,
     });
   }
@@ -82,8 +78,6 @@ class ParcelController {
       customer_address: "required",
       parcel_price: "required",
       shop_id: "required",
-      area_id: "required",
-      zone_id: "required",
       weight: "required",
     });
 
@@ -135,7 +129,12 @@ class ParcelController {
     const shops = await user.shops().fetch();
     const zones = await Zone.all();
     const areas = await Area.all();
-    return view.render("parcels.edit", { parcel, shops, zones, areas });
+    return view.render("parcels.edit", {
+      parcel,
+      shops,
+      zones,
+      areas,
+    });
   }
 
   /**
@@ -155,8 +154,6 @@ class ParcelController {
       customer_address: "required",
       parcel_price: "required",
       shop_id: "required",
-      area_id: "required",
-      zone_id: "required",
       weight: "required",
     });
 
@@ -171,7 +168,9 @@ class ParcelController {
     const parcel = await Parcel.find(params.id);
     parcel.merge(payload);
     await parcel.save();
-    session.flash({ successMsg: "সফলভাবে হালনাগাদ হয়েছে" });
+    session.flash({
+      successMsg: "সফলভাবে হালনাগাদ হয়েছে",
+    });
     response.redirect("back");
   }
 

@@ -18,13 +18,17 @@ class Parcel extends Model {
     return this.belongsTo("App/Models/Zone");
   }
 
-  owner() {
+  merchant() {
     return this.belongsTo("App/Models/User");
   }
+  trackings() {
+    return this.hasMany("App/Models/Tracker", "tracking_id", "tracking_id");
+  }
+
   static boot() {
     super.boot();
-    this.addHook("beforeSave", async (parcelInstance) => {
-      parcelInstance.tracking_id = uniqid.time().toUpperCase()
+    this.addHook("beforeCreate", async (parcelInstance) => {
+      parcelInstance.tracking_id = uniqid.time().toUpperCase();
     });
   }
 }

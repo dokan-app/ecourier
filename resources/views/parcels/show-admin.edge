@@ -1,0 +1,114 @@
+@layout('layouts.dashboard')
+
+@section('body')
+
+<div class="columns">
+  <div class="column">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-title">মার্চেন্ডাইজার এর তথ্য</div>
+      </div>
+      <div class="card-content">
+        <div class="level">
+          <div class="level-left">নাম:</div>
+          <div class="level-right">{{ parcel.merchant.name }}</div>
+        </div>
+        <div class="level">
+          <div class="level-left">ইমেইল:</div>
+          <div class="level-right">{{ parcel.merchant.email }}</div>
+        </div>
+
+        <h3 class=" text-xl mb-1">দোকান</h3>
+        <div>
+          <h3>{{ parcel.shop.name }}</h3>
+          <h3>{{ parcel.shop.pickup_address }}</h3>
+          <h3>এরিয়া: {{ parcel.shop.area.name }}</h3>
+          <h3>জোন: {{ parcel.shop.zone.name }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="card-header-title">পার্সেল এর তথ্য</div>
+      </div>
+      <div class="card-content">
+        <div class="level">
+          <div class="level-left">অর্ডার এর তারিখ</div>
+          <div class="level-right">{{ parcel.created_at }}</div>
+        </div>
+        <div class="level">
+          <div class="level-left">ট্র্যাকিং আইডি</div>
+          <div class="level-right"><a target="_blank"
+              href="{{ route('tracker.public') }}?tracking_id={{ parcel.tracking_id }}"
+              class="has-text-danger">{{ parcel.tracking_id }}</a></div>
+        </div>
+        <div class="level">
+          <div class="level-left">ওজন</div>
+          <div class="level-right">{{ bnNum(parcel.weight) }} কেজি</div>
+        </div>
+        <div class="level">
+          <div class="level-left">পার্সেল এর মূল্য (COD)</div>
+          <div class="level-right">{{ bnNum(parcel.parcel_price) }} টাকা</div>
+        </div>
+        <div class="level">
+          <div class="level-left">COD চার্জ( 1% )</div>
+          <div class="level-right">{{ bnNum(cod_charge) }} টাকা</div>
+        </div>
+        <div class="level">
+          <div class="level-left">ডেলিভারি চার্জ</div>
+          <div class="level-right">{{ bnNum(delivary_charge) }} টাকা</div>
+        </div>
+        <div class="level bg-green-400 p-3">
+          <div class="level-left">মোট চার্জ</div>
+          <div class="level-right">{{ bnNum(delivary_charge + cod_charge) }} টাকা</div>
+        </div>
+        <div class="level bg-red-400 p-3">
+          <div class="level-left">মার্চেন্ডাইজারমার্চেন কে দিতে হবে</div>
+          <div class="level-right">{{ bnNum(parcel.parcel_price - (delivary_charge + cod_charge)) }} টাকা</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-title">গ্রাহক এর তথ্য</div>
+      </div>
+      <div class="card-content">
+        <p>{{ parcel.customer_name }}</p>
+        <p>{{ parcel.customer_phone }}</p>
+        <p>{{ parcel.customer_address }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-title">ট্র্যাকিং ম্যাসেজ সমূহ</div>
+      </div>
+      <div class="card-content">
+        @each(item in parcel.trackings)
+        <div class="box flex justify-between items-center">
+          <div>
+            <h3>{{ item.status_message }}</h3>
+            <p class=" text-sm text-gray-600">{{ item.created_at }}</p>
+          </div>
+          <form action="{{ route('tracker.destroy' , { id: item.id }) }}?_method=delete" method="POST">
+            {{ csrfField() }}
+            <button class=" bg-red-600 rounded-full text-white w-6 h-6">&times;</button>
+          </form>
+        </div>
+        @endeach
+        <form action="{{ route('tracker.store') }}" method="POST">
+          {{ csrfField() }}
+          <input type="hidden" name="tracking_id" value="{{ parcel.tracking_id }}">
+          <textarea class="textarea" name="status_message" id="" cols="30" rows="2"></textarea>
+          <button class="button is-danger is-small mt-2">নতুন ম্যাসেজ যুক্ত করুন</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+@endsection
