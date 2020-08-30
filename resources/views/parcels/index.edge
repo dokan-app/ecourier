@@ -48,6 +48,7 @@
       <th>ট্র্যাকিং আইডি</th>
       <th>দোকান</th>
       <th>গ্রাহক</th>
+      <th>ওজন</th>
       <th>COD এর পরিমাণ</th>
       <th>টাকা গ্রহণ</th>
       <th>অর্ডার এর সময়</th>
@@ -60,6 +61,7 @@
       <td>{{ item.tracking_id }}</td>
       <td>{{ item.shop.name }}</td>
       <td>{{ item.customer_name }} <br>{{ item.customer_phone }} <br><span>{{ item.customer_address }}</span></td>
+      <td>{{ bnNum(item.weight) }} কেজি</td>
       <td>{{ item.parcel_price }}</td>
       <td>
         @if(item.cod_collected)

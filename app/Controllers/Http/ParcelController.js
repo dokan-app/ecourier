@@ -8,9 +8,7 @@
 const Area = use("App/Models/Area");
 
 /** @type {typeof import('adonisjs/validator')} */
-const {
-  validateAll
-} = use("Validator");
+const { validateAll } = use("Validator");
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Zone = use("App/Models/Zone");
@@ -31,19 +29,16 @@ class ParcelController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({
-    request,
-    view,
-    auth
-  }) {
-    const me = auth.user
-    const parcels = await me.parcels()
+  async index({ request, view, auth }) {
+    const me = auth.user;
+    const parcels = await me
+      .parcels()
       .with("shop")
       .with("area")
       .with("zone")
       .paginate(request.input("page", 1), 12);
     return view.render("parcels.index", {
-      parcels: parcels.toJSON()
+      parcels: parcels.toJSON(),
     });
   }
 
@@ -56,12 +51,7 @@ class ParcelController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create({
-    request,
-    response,
-    view,
-    auth
-  }) {
+  async create({ request, response, view, auth }) {
     const user = auth.user;
     const shops = await user.shops().fetch();
     const zones = await Zone.all();
@@ -70,7 +60,7 @@ class ParcelController {
     return view.render("parcels.create", {
       zones,
       areas,
-      shops
+      shops,
     });
   }
 
@@ -82,14 +72,9 @@ class ParcelController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({
-    request,
-    response,
-    auth,
-    session
-  }) {
+  async store({ request, response, auth, session }) {
     const payload = request.all();
-    delete payload._csrf
+    delete payload._csrf;
 
     const validation = await validateAll(payload, {
       customer_name: "required|min:3",
@@ -104,12 +89,11 @@ class ParcelController {
 
     if (validation.fails()) {
       session.flash({
-        errorMsg: "কিছু ভুল করেছেন, দয়া করে ঠিক করুন।"
+        errorMsg: "কিছু ভুল করেছেন, দয়া করে ঠিক করুন।",
       });
       session.withErrors(validation.messages());
       return response.redirect("back");
     }
-
 
     await Parcel.create({
       ...payload,
@@ -117,12 +101,11 @@ class ParcelController {
     });
 
     session.flash({
-      successMsg: "অর্ডার গ্রহণ করা হয়েছে"
+      successMsg: "অর্ডার গ্রহণ করা হয়েছে",
     });
 
     response.route("parcels.index");
   }
-
 
   /**
    * Display a single percel.
@@ -133,12 +116,7 @@ class ParcelController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({
-    params,
-    request,
-    response,
-    view
-  }) {
+  async show({ params, request, response, view }) {
     return view.render("parcels.index");
   }
 
@@ -151,13 +129,13 @@ class ParcelController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit({
-    params,
-    request,
-    response,
-    view
-  }) {
-    return view.render("parcels.edit");
+  async edit({ params, request, response, view, auth }) {
+    const parcel = await Parcel.findByOrFail("id", params.id);
+    const user = auth.user;
+    const shops = await user.shops().fetch();
+    const zones = await Zone.all();
+    const areas = await Area.all();
+    return view.render("parcels.edit", { parcel, shops, zones, areas });
   }
 
   /**
@@ -168,11 +146,34 @@ class ParcelController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({
-    params,
-    request,
-    response
-  }) {}
+  async update({ params, request, response, session }) {
+    const payload = request.except(["_method", "_csrf"]);
+
+    const validation = await validateAll(payload, {
+      customer_name: "required|min:3",
+      customer_phone: "required|min:11",
+      customer_address: "required",
+      parcel_price: "required",
+      shop_id: "required",
+      area_id: "required",
+      zone_id: "required",
+      weight: "required",
+    });
+
+    if (validation.fails()) {
+      session.flash({
+        errorMsg: "কিছু ভুল করেছেন, দয়া করে ঠিক করুন।",
+      });
+      session.withErrors(validation.messages());
+      return response.redirect("back");
+    }
+
+    const parcel = await Parcel.find(params.id);
+    parcel.merge(payload);
+    await parcel.save();
+    session.flash({ successMsg: "সফলভাবে হালনাগাদ হয়েছে" });
+    response.redirect("back");
+  }
 
   /**
    * Delete a percel with id.
@@ -182,14 +183,10 @@ class ParcelController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({
-    params,
-    response,
-    session
-  }) {
+  async destroy({ params, response, session }) {
     const item = await Parcel.findByOrFail("id", params.id);
     session.flash({
-      successMsg: "সফল ভাবে মুছে ফেলা হয়েছে"
+      successMsg: "সফল ভাবে মুছে ফেলা হয়েছে",
     });
     await item.delete();
     response.route("parcels.index");

@@ -16,13 +16,12 @@
     </script>
 @endsection
 
-
 @section('body')
     <div class="columns">
         <div class="column is-6">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-header-title">নতুন দোকান নিবন্ধন করুন</div>
+                    <div class="card-header-title">দোকান হালনাগাদ করুন</div>
                 </div>
                 <div class="card-content">
                     <form action="{{ route('shops.update' , { id: shop.id }) }}?_method=put" method="POST">
@@ -35,7 +34,7 @@
                                     type="text" 
                                     name="name"
                                     value="{{ old('name' , shop.name) }}"
-                                    placeholder="এরিয়ার নাম">
+                                    placeholder="দোকানের নাম">
                                 @if(hasErrorFor('name'))
                                     <p class="help is-danger">{{ getErrorFor('name') }}</p>
                                 @endif
@@ -47,7 +46,7 @@
                                 <textarea class="textarea {{ hasErrorFor('pickup_address') && 'is-danger' }}" 
                                     type="text" 
                                     name="pickup_address"
-                                    placeholder="এরিয়ার নাম">{{ old('pickup_address' , shop.pickup_address) }}</textarea>
+                                    placeholder="পার্সেল গ্রহণ করার ঠিকানা">{{ old('pickup_address' , shop.pickup_address) }}</textarea>
                                 @if(hasErrorFor('pickup_address'))
                                     <p class="help is-danger">{{ getErrorFor('pickup_address') }}</p>
                                 @endif
@@ -60,7 +59,7 @@
                                     type="text" 
                                     name="shop_phone"
                                     value="{{ old('shop_phone' , shop.shop_phone) }}"
-                                    placeholder="এরিয়ার নাম"></input>
+                                    placeholder=">দোকানের ফোন নম্বর"></input>
                                 @if(hasErrorFor('shop_phone'))
                                     <p class="help is-danger">{{ getErrorFor('shop_phone') }}</p>
                                 @endif
@@ -70,7 +69,7 @@
                             <label class="label">এরিয়া</label>
                             <div class="control has-icons-left">
                                 <select class="select2 w-2/3" name="area_id">
-                                    <option value="">কিছু নির্বাচন করেননি</option>
+                                    <option value="">...</option>
                                     @each(item in areas.toJSON())
                                     <option  
                                     @if(item.id == shop.area_id)
@@ -88,7 +87,7 @@
                             <label class="label">জোন</label>
                             <div class="control has-icons-left">
                                 <select class="select2 w-2/3" name="zone_id">
-                                    <option value="">কিছু নির্বাচন করেননি</option>
+                                    <option value="">...</option>
                                     @each(item in zones.toJSON())
                                     <option 
                                     @if(item.id == shop.zone_id)
