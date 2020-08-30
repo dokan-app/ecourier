@@ -1,47 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Courier</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="/css/app.css">
-    <link
-      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    @!section('headerHook')
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Courier</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/css/app.css">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+  @!section('headerHook')
 </head>
-<body>
-    
-    @include('partials/_navbar')
-    @include('partials/_alert')
-    <main>
-        <div class="container is-fluid my-5">
-            <div class="columns">
-                <div class="column is-3 has-background-light">
-                    @is('administrator')
-                        @include('partials/_admin-dashboard-sidebar')
-                    @endis
 
-                    @is('merchant')
-                        @include('partials/_merchant-dashboard-sidebar')
-                    @endis
-                </div>
-                <div class="column py-0">
-                    <div class="card">
-                        <div class="card-content">
-                            @!section('body')
-                        </div>
-                    </div>
-                </div>
-            </div>
+<body class="has-background-light">
+  @include('partials/_navbar')
+  @include('partials/_alert')
+  <main>
+    <div class="container is-fluid my-5">
+      <div class="columns">
+        <div class="column is-2 bg-white">
+          @is('administrator')
+          @include('partials/_admin-dashboard-sidebar')
+          @endis
+
+          @is('merchant')
+          @include('partials/_merchant-dashboard-sidebar')
+          @endis
         </div>
-    </main>
-    @include('partials/_footer')
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    @!section('footerHook')
+        <div class="column py-0">
+          @!section('body')
+        </div>
+      </div>
+    </div>
+  </main>
+  @include('partials/_footer')
+  @!section('footerHook')
 </body>
+
 </html>

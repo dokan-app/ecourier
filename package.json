@@ -32,10 +32,14 @@
     "adonis-acl": "^1.1.1",
     "bnnum": "^1.0.6",
     "md5": "^2.3.0",
+    "moment": "^2.27.0",
+    "now": "^20.1.0",
     "pg": "^8.3.2",
-    "tailwindcss": "^1.7.5"
+    "tailwindcss": "^1.7.5",
+    "uniqid": "^5.2.0"
   },
   "devDependencies": {
+    "@now/node-server": "^0.8.2",
     "bulma-scss": "^0.9.0-1"
   },
   "autoload": {

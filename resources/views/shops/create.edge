@@ -1,0 +1,107 @@
+@layout('layouts.dashboard')
+
+
+@section('headerHook')
+    <link rel="stylesheet" href="{{ publicUrl('select2/select2.min.css') }}">
+@endsection
+
+
+@section('footerHook')
+    <script src="{{ publicUrl('jquery.min.js') }}"></script>
+    <script src="{{ publicUrl('select2/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+@endsection
+
+
+@section('body')
+    <div class="columns">
+        <div class="column is-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">নতুন দোকান নিবন্ধন করুন</div>
+                </div>
+                <div class="card-content">
+                    <form action="{{ route('shops.store') }}" method="POST">
+                        {{ csrfField() }}
+                        <div class="field">
+                            <label class="label">নাম</label>
+                            <div class="control">
+                                <input 
+                                    class="input {{ hasErrorFor('name') && 'is-danger' }}" 
+                                    type="text" 
+                                    name="name"
+                                    value="{{ old('name') }}"
+                                    placeholder="এরিয়ার নাম">
+                                @if(hasErrorFor('name'))
+                                    <p class="help is-danger">{{ getErrorFor('name') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">পার্সেল গ্রহণ করার ঠিকানা</label>
+                            <div class="control">
+                                <textarea class="textarea {{ hasErrorFor('pickup_address') && 'is-danger' }}" 
+                                    type="text" 
+                                    name="pickup_address"
+                                    placeholder="এরিয়ার নাম">{{ old('pickup_address') }}</textarea>
+                                @if(hasErrorFor('pickup_address'))
+                                    <p class="help is-danger">{{ getErrorFor('pickup_address') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">দোকানের ফোন নম্বর</label>
+                            <div class="control">
+                                <input class="input {{ hasErrorFor('shop_phone') && 'is-danger' }}" 
+                                    type="text" 
+                                    name="shop_phone"
+                                    value="{{ old('shop_phone') }}"
+                                    placeholder="এরিয়ার নাম"></input>
+                                @if(hasErrorFor('shop_phone'))
+                                    <p class="help is-danger">{{ getErrorFor('shop_phone') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">এরিয়া</label>
+                            <div class="control has-icons-left">
+                                <select class="select2 w-2/3" name="area_id">
+                                    <option value="">কিছু নির্বাচন করেননি</option>
+                                    @each(item in areas.toJSON())
+                                    <option value="{{ item.id }}">{{ item.name }}</option>
+                                    @endeach
+                                </select>
+                                @if(hasErrorFor('area_id'))
+                                    <p class="help is-danger">{{ getErrorFor('area_id') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">জোন</label>
+                            <div class="control has-icons-left">
+                                <select class="select2 w-2/3" name="zone_id">
+                                    <option value="">কিছু নির্বাচন করেননি</option>
+                                    @each(item in zones.toJSON())
+                                    <option value="{{ item.id }}">{{ item.name }}</option>
+                                    @endeach
+                                </select>
+                                @if(hasErrorFor('zone_id'))
+                                    <p class="help is-danger">{{ getErrorFor('zone_id') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        {{--    --}}
+
+                        <div class="field">
+                            <button class="button is-danger">সেভ করুন</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

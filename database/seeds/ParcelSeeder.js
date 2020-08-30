@@ -1,8 +1,8 @@
-"use strict";
+'use strict'
 
 /*
 |--------------------------------------------------------------------------
-| ZoneSeeder
+| ParcelSeeder
 |--------------------------------------------------------------------------
 |
 | Make use of the Factory instance to seed database with dummy data or
@@ -11,12 +11,12 @@
 */
 
 /** @type {import('@adonisjs/lucid/src/Factory')} */
-const Factory = use("Factory");
+const Factory = use('Factory')
 
-class ZoneSeeder {
+class ParcelSeeder {
   async run() {
-    // await Factory.model("App/Models/Zone").createMany(20);
+    await Factory.model("App/Models/Parcel").createMany(50);
   }
 }
 
-module.exports = ZoneSeeder;
+module.exports = ParcelSeeder

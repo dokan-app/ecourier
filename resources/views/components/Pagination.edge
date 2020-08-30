@@ -1,16 +1,17 @@
 @if(show)
-  <ul class="pagination">
+<nav class="pagination is-right" role="navigation" aria-label="pagination">
+  @unless(page == 1)
+  <a class="pagination-previous" href="?page={{ page - 1 }}"><i class="fa fa-angle-left mr-2"></i> পুর্বের পাতা</a>
+  @endunless
 
-    @unless(page == 1)
-    <li class="page-item"><a class="page-link" href="?page={{ page - 1 }}">পুর্বের পাতা</a></li>
-    @endunless
+  @unless(page == last_page)
+  <a class="pagination-next" href="?page={{ page + 1 }}">সামনের পাতা <i class="fa fa-angle-right ml-2"></i></a>
+  @endunless
 
+  <ul class="pagination-list">
     @each(currentPageNo in paginationArray(last_page))
-        <li class="page-item {{ currentPageNo == page ? 'active': '' }}"><a href="?page={{currentPageNo}}" class="page-link">{{ currentPageNo }}</a></li>
+    <li><a href="?page={{currentPageNo}}" class="pagination-link {{ currentPageNo == page ? 'is-current': '' }}" aria-label="Page 46" aria-current="page">{{ currentPageNo }}</a></li>
     @endeach
-
-    @unless(page == last_page)
-    <li class="page-item"><a class="page-link" href="?page={{ page + 1 }}">সামনের পাতা</a></li>
-    @endunless
   </ul>
+</nav>
 @endif

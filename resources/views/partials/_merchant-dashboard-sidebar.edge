@@ -1,18 +1,26 @@
-<div class="card">
-    <div class="card-body">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="#">নতুন পার্সেল</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">ড্যাসবোর্ড</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">পার্সেল সমূহ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">পেমেন্ট</a>
-            </li>
-        </ul>
-    </div>
+<a href="{{ route('parcels.create') }}" class="button is-fullwidth is-danger">
+  <i class="fa fa-plus mr-2"></i>
+  <span>নতুন পার্সেল</span>
+</a>
+
+<div class="menu">
+  <div class="menu-list">
+    <ul>
+      <li><a class="{{ request.url().includes(route('merchant.dashboard')) && 'is-active' }}"
+          href="{{ route('merchant.dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i> ড্যাসবোর্ড</a>
+      </li>
+
+      <li>
+        <a class="{{ request.url().includes(route('parcels.index')) && 'is-active' }}"
+          href="{{ route('parcels.index') }}">
+          <i class="fa fa-shopping-bag" aria-hidden="true"></i> পার্সেল সমূহ
+        </a>
+      </li>
+      <li><a class="{{ request.url().includes(route('shops.index')) && 'is-active' }}"
+          href="{{ route('shops.index') }}"><i class="fa fa-home" aria-hidden="true"></i> দোকান সমূহ</a></li>
+      <li><a href="#"><i class="fa fa-usd" aria-hidden="true"></i> পেমেন্ট</a></li>
+      <li><a class="{{ request.url().includes(route('settings.profile')) && 'is-active' }}"
+          href="{{ route('settings.profile') }}"><i class="fa fa-cog" aria-hidden="true"></i> সেটিংস</a></li>
+    </ul>
+  </div>
 </div>

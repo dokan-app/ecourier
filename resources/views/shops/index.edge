@@ -1,0 +1,44 @@
+@layout('layouts.dashboard')
+@section('body')
+    <div class="level">
+        <div class="level-left">
+            <h1 class="text-2xl">আপনার সকল দোকান সমূহ ({{ bnNum(+shops.total) }})</h1>
+        </div>
+        <div class="level-right">
+            <a class="button is-danger" href="{{ route('shops.create') }}">নতুন</a>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <div class="columns is-multiline">
+                @each(item in shops.data)
+                <form id="shops-delete-id-{{ item.id }}" action="{{ route('shops.destroy' , { id: item.id }) }}?_method=delete" method="post">{{ csrfField() }}</form>
+                <div class="column is-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="text-xl">{{ item.name }}</h3>
+                            <p>জোন: {{ item.zone.name }}</p>
+                            <p>এরিয়া: {{ item.area.name }}</p>
+                            <p>{{ item.pickup_address }}</p>
+                            <p>{{ item.shop_phone }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-footer-item">
+                                <a 
+                                    href="{{ route('shops.edit' , { id: item.id }) }}"
+                                    class="has-text-success">সংস্কার</a>
+                            </div>
+                            <div class="card-footer-item">
+                                <a 
+                                    onclick="confirm('আসলেই মুছে ফেলছে চান?') && document.getElementById('shops-delete-id-{{ item.id }}').submit()"
+                                    href="javascript:void(0)" 
+                                    class="has-text-danger">মুছুন</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endeach
+        </div>
+       @!component('components/Pagination', last_page = shops.lastPage , page = shops.page , show=parseInt(shops.total) > shops.perPage)
+    </div>
+@endsection

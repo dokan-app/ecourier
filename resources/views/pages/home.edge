@@ -1,8 +1,12 @@
 @layout('layouts.main')
 
+@section('footerHook')
+<script src="{{ publicUrl('alpine.min.js') }}"></script>
+@endsection
+
 @section('body')
-    @include('partials._hero')
-    @include('partials._promo-section')
-    @include('partials._coverage-section')
-    @include('partials._calculator-section')
+@include('partials._hero')
+@include('partials._promo-section')
+@include('partials._coverage-section')
+@include('partials._calculator-section')
 @endsection
