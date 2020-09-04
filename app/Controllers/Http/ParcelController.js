@@ -31,15 +31,33 @@ class ParcelController {
    */
   async index({ request, view, auth }) {
     const me = auth.user;
+
+    const fallbackStatus = [
+      "placed",
+      "picked",
+      "shipping",
+      "delivered",
+      "cancelled",
+      "returned",
+    ];
+
+    const filter = request.input("status")
+      ? [request.input("status")]
+      : fallbackStatus;
+
     const parcels = await me
       .parcels()
       .with("shop")
       .with("area")
       .with("zone")
+      .whereIn("status", filter)
       .orderBy("created_at", "desc")
       .paginate(request.input("page", 1), 12);
+
+    // return parcels;
     return view.render("parcels.index", {
       parcels: parcels.toJSON(),
+      filter,
     });
   }
 
@@ -112,7 +130,22 @@ class ParcelController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    return view.render("parcels.index");
+    let parcel = await Parcel.query()
+      .where("id", params.id)
+      .with("shop")
+      .with("shop.area")
+      .with("shop.zone")
+      .with("trackings")
+      .first();
+
+    parcel = parcel.toJSON();
+
+    const delivary_charge = 60 + (parcel.weight - 1) * 15;
+
+    return view.render("parcels.show", {
+      parcel,
+      delivary_charge,
+    });
   }
 
   /**

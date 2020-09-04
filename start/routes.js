@@ -12,6 +12,7 @@
 | http://adonisjs.com/docs/4.1/routing
 |
 */
+const Mail = use("Mail");
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
@@ -45,6 +46,20 @@ Route.group(() => {
    * ------------------------------------
    */
   Route.on("login").render("auth.login").as("auth.login");
+
+  Route.on("forgot-password")
+    .render("auth.forgot-password")
+    .as("auth.forgot-password");
+
+  Route.get("password-recover", "AuthController.recoverPasswordView");
+
+  Route.post("forgot-password", "AuthController.forgotPassword").as(
+    "auth.forgot-password"
+  );
+  Route.post("recover-password", "AuthController.updatePasswordByToken").as(
+    "auth.update-password-by-token"
+  );
+
   Route.on("merchant/register")
     .render("auth.register")
     .as("auth.merchant.register");
@@ -76,7 +91,9 @@ Route.group(() => {
 Route.group(() => {
   Route.get("/", "MerchantDashboardController.states").as("merchant.dashboard");
   Route.resource("parcels", "ParcelController");
+  Route.resource("payments", "PaymentController");
   Route.resource("shops", "ShopController");
+  Route.get("payments", "PaymentController.index").as("merchant.payments");
 })
   .prefix("dashboard")
   .middleware(["is:merchant"]);

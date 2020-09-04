@@ -15,7 +15,18 @@ class ParcelSchema extends Schema {
       table.string("invoice_id");
       table.integer("parcel_price");
       table.boolean("cod_collected").defaultTo(false);
+      table
+        .enum("status", [
+          "placed",
+          "picked",
+          "shipping",
+          "delivered",
+          "cancelled",
+          "returned",
+        ])
+        .defaultTo("placed");
       table.integer("weight");
+      table.float("merchant_payback_amount").defaultTo(0);
       table.timestamps();
 
       table.uuid("shop_id").unsigned().index();

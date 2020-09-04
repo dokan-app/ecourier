@@ -6,19 +6,21 @@
 <div class="menu">
   <div class="menu-list">
     <ul>
-      <li><a class="{{ request.url().includes(route('merchant.dashboard')) && 'is-active' }}"
+      <li><a class="{{ request.url() == route('merchant.dashboard') && 'is-active' }}"
           href="{{ route('merchant.dashboard') }}"><i class="fa fa-tachometer" aria-hidden="true"></i> ড্যাসবোর্ড</a>
       </li>
 
       <li>
-        <a class="{{ request.url().includes(route('parcels.index')) && 'is-active' }}"
+        <a class="{{ request.url() == route('parcels.index') && 'is-active' }}"
           href="{{ route('parcels.index') }}">
           <i class="fa fa-shopping-bag" aria-hidden="true"></i> পার্সেল সমূহ
         </a>
       </li>
-      <li><a class="{{ request.url().includes(route('shops.index')) && 'is-active' }}"
+      <li><a class="{{ request.url() == route('shops.index') && 'is-active' }}"
           href="{{ route('shops.index') }}"><i class="fa fa-home" aria-hidden="true"></i> দোকান সমূহ</a></li>
-      <li><a href="#"><i class="fa fa-usd" aria-hidden="true"></i> পেমেন্ট</a></li>
+      
+      <li><a class="{{ request.url() == route('payments.index') && 'is-active' }}" href="{{ route('payments.index') }}"><i class="fa fa-usd" aria-hidden="true"></i> উপার্জন</a></li>
+      
       <li><a class="{{ request.url().includes(route('settings.profile')) && 'is-active' }}"
           href="{{ route('settings.profile') }}"><i class="fa fa-cog" aria-hidden="true"></i> সেটিংস</a></li>
     </ul>

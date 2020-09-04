@@ -136,41 +136,50 @@
       </div>{{--  .card  --}}
     </div>{{--  .column.is-8  --}}
     {{-- ================= Delivary charge start ================= --}}
-    <div class="column is-4 ">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-header-title">ডেলিভারি চার্জের বিস্তারিত</div>
-        </div>
-        <div class="card-content flex flex-col justify-between">
-          <div>
-            <div class="level">
-              <div class="level-left">গ্রাহক এর কাছ থেকে নেয়া হবে</div>
-              <div class="level-right"><span x-text="parcel_price"></span>&nbsp;টাকা</div>
-            </div>
-            <div class="level">
-              <div class="level-left">COD চার্জ (1%)</div>
-              <div class="level-right"><span x-text="parcel_price * .01"></span>&nbsp;টাকা</div>
-            </div>
-            <div class="level">
-              <div class="level-left">পার্সেল এর উজন</div>
-              <div class="level-right"><span x-text="weight"></span>&nbsp;কেজি</div>
-            </div>
-            <div class="level mb-1">
-              <div class="level-left">ডেলিভারি ফি</div>
-              <div class="level-right"><span x-text="delivary_charge"></span>&nbsp;টাকা </div>
-            </div>
-            <hr class="mb-2 border-gray-400 border-1">
-            <div class="level">
-              <div class="level-left">আপনি পাবেন</div>
-              <div class="level-right"><span x-text="parcel_price - (delivary_charge + (parcel_price * .01))"></span>&nbsp;টাকা</div>
-            </div>
+      <div class="column is-4">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header-title">ডেলিভারি চার্জের বিস্তারিত</div>
           </div>
-          <div class="field mt-4">
-            <button class="button is-danger is-fullwidth">হালনাগাদ করুন</button>
+          <div class="card-content flex flex-col justify-between">
+            <div>
+              <div class="level mb-1">
+                <div class="level-left">পার্সেল এর মূল্য</div>
+                <div class="level-right"><span x-text="parcel_price"></span>&nbsp;টাকা</div>
+              </div>
+              <div class="level mb-1">
+                <div class="level-left">পার্সেল এর ওজন</div>
+                <div class="level-right"><span x-text="weight"></span>&nbsp;কেজি</div>
+              </div>
+              <div class="level mb-1">
+                <div class="level-left">ডেলিভারি ফি</div>
+                <div class="level-right"><span x-text="delivary_charge"></span>&nbsp;টাকা </div>
+              </div>
+              <hr class="mb-2 border-gray-400 border-1">
+              <div class="level mt-2">
+                <div class="level-left">গ্রাহক পে করবে</div>
+                <div class="level-right"><span x-text="(+delivary_charge + +parcel_price)"></span>&nbsp;টাকা </div>
+              </div>
+              <div class="level mb-0">
+                <div class="level-left">COD চার্জ (1%)</div>
+                <div class="level-right"><span x-text="parcel_price * .01"></span>&nbsp;টাকা</div>
+              </div>
+              <div class="level mb-1">
+                <div class="level-left">ডেলিভারি ফি</div>
+                <div class="level-right"><span x-text="delivary_charge"></span>&nbsp;টাকা </div>
+              </div>
+              <hr class="mb-2 border-gray-400 border-1">
+              <div class="level">
+                <div class="level-left">আপনি পাবেন</div>
+                <div class="level-right"><span x-text="(+delivary_charge + +parcel_price) - (delivary_charge + (parcel_price * .01))"></span>&nbsp;টাকা</div>
+              </div>
+            </div>
+            <div class="field mt-4">
+              <button class="button is-danger is-fullwidth">হালনাগাদ করুন</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     {{-- ================= Delivary charge end ================= --}}
   </div>{{--  .columns  --}}
 </form>

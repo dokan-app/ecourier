@@ -120,7 +120,14 @@ class ParcelAdminController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, request, response }) {}
+  async update({ params, request, response, session }) {
+    const parcel = await Parcel.find(params.id);
+    const payload = request.except(["_csrf", "_method"]);
+    parcel.merge(payload);
+    await parcel.save();
+    session.flash({ successMsg: "পার্সেল হালনাগাদ করা হয়েছে" });
+    return response.redirect("back");
+  }
 
   /**
    * Delete a parceladmin with id.

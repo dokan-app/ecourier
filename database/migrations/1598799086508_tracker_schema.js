@@ -11,7 +11,10 @@ class TrackerSchema extends Schema {
       table.string("status_message");
       table.string("tracking_id").unsigned().index();
       table.timestamps();
-      table.foreign("tracking_id").references("parcels.tracking_id");
+      table
+        .foreign("tracking_id")
+        .references("parcels.tracking_id")
+        .onDelete("CASCADE");
     });
   }
 

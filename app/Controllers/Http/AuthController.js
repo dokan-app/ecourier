@@ -6,6 +6,8 @@ const { route } = require("@adonisjs/framework/src/Route/Manager");
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Mail = use("Mail");
+
 const Database = use("Database");
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
@@ -112,7 +114,50 @@ class AuthController {
 
     session.flash({ successMsg: "আপনি সঠিক ভাবে নিবন্ধিত হয়েছেন" });
 
+    await Mail.send("mail.welcome", user.toJSON(), (message) => {
+      message
+        .to(user.email)
+        .from("example@example.com")
+        .subject("Welcome to royalxpressbd.com");
+    });
+
     return response.route("auth.login");
+  }
+
+  /**
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async forgotPassword({ request, response, session }) {
+    const { uid } = request.only(["uid"]);
+    await Persona.forgotPassword(uid);
+    session.flash({
+      successMsg: "পাসওয়ার্ড পুনরুদ্ধার করতে আপনার ইমেইল যাচাই করুন",
+    });
+    response.redirect("/");
+  }
+
+  /**
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async recoverPasswordView({ request, response, params, view }) {
+    return view.render("auth.recover-password", {
+      token: request.input("token"),
+    });
+  }
+
+  async updatePasswordByToken({ request, params, session, response, auth }) {
+    const payload = request.only(["password", "password_confirmation"]);
+    const { token } = request.only(["token"]);
+    const user = await Persona.updatePasswordByToken(token, payload);
+    await auth.login(user);
+    session.flash({ successMsg: "Password changed" });
+    response.redirect("/");
   }
 
   /**

@@ -10,22 +10,7 @@
 </style>
 @endsection
 
-@section('footerHook')
-<script src="{{ publicUrl('jquery.min.js') }}"></script>
-<script src="{{ publicUrl('datatable/jquery.dataTables.min.js') }}"></script>
-<script>
-  $(document).ready(function () {
-    $('#data-table').DataTable({
-      paging: false
-    });
-  });
-
-</script>
-@endsection
-
-
 @section('body')
-
 @each(item in parcels.data)
 <form method="POST" action="{{ route('parcels.destroy' , { id: item.id }) }}?_method=delete"
   id="parcel-id-{{ item.id }}">
@@ -38,52 +23,78 @@
     <h1 class="text-2xl">আপনার পার্সেল সমূহ ({{ bnNum(parcels.total) }})</h1>
   </div>
   <div class="level-right">
+    <div class="field mb-0 mr-2 flex items-center">
+      <p class="mr-1">ফিল্টার করুন:</p> 
+      <form action="{{ route('parcels.index') }}" method="GET" id="filter">
+        <div class="select">
+          <select name="status" onchange="document.getElementById('filter').submit()">
+            <option value="">All</option>
+            <option {{ filter == 'placed' && 'selected' }} value="placed">placed</option>
+            <option {{ filter == 'picked' && 'selected' }} value="picked">picked</option>
+            <option {{ filter == 'shipping' && 'selected' }} value="shipping">shipping</option>
+            <option {{ filter == 'delivered' && 'selected' }} value="delivered">delivered</option>
+            <option {{ filter == 'cancelled' && 'selected' }} value="cancelled">cancelled</option>
+            <option {{ filter == 'returned' && 'selected' }} value="returned">returned</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+
     <a class="button is-danger" href="{{ route('parcels.create') }}">নতুন</a>
   </div>
 </div>
 
-<table id="data-table" class="display stripe" style="width:100%">
-  <thead>
-    <tr>
-      <th>ট্র্যাকিং আইডি</th>
-      <th>দোকান</th>
-      <th>গ্রাহক</th>
-      <th>ওজন</th>
-      <th>COD এর পরিমাণ</th>
-      <th>টাকা গ্রহণ</th>
-      <th>অর্ডার এর সময়</th>
-      <th>একশন</th>
-    </tr>
-  </thead>
-  <tbody>
-    @each(item in parcels.data)
-    <tr>
-      <td>{{ item.tracking_id }}</td>
-      <td>{{ item.shop.name }}</td>
-      <td>{{ item.customer_name }} <br>{{ item.customer_phone }} <br><span>{{ item.customer_address }}</span></td>
-      <td>{{ bnNum(item.weight) }} কেজি</td>
-      <td>{{ item.parcel_price }}</td>
-      <td>
-        @if(item.cod_collected)
-        <span class="tag is-success">হ্যাঁ</span>
-        @else
-        <span class="tag is-danger">না</span>
-        @endif
-      </td>
-      <td>{{ moment(item.created_at).format('MMM Do YYYY') }}</td>
-      <td>
-        <a href="{{ route('parcels.edit', { id: item.id }) }}" class=" text-green-500 mr-2">সংস্কার</a>
-        <a href="javascript:void(0)"
-          onclick="confirm('Sure to delete?') && document.getElementById('parcel-id-{{ item.id }}').submit()"
-          class="text-red-600">মুছুন</a>
-      </td>
-    </tr>
-    @endeach
-  </tbody>
-</table>
+<div class="table-container">
+  <table class="table" style="width:100%">
+    <thead>
+      <tr>
+        <th>ট্র্যাকিং আইডি</th>
+        <th>দোকান</th>
+        <th>গ্রাহক</th>
+        <th>ওজন</th>
+        <th>COD এর পরিমাণ</th>
+        <th>আপনি পাবেন</th>
+        <th>টাকা গ্রহণ</th>
+        <th>অবস্থা</th>
+        <th>অর্ডার এর সময়</th>
+        <th>একশন</th>
+      </tr>
+    </thead>
+    <tbody>
+      @each(item in parcels.data)
+      <tr>
+        <td><a class="text-red-500" target="_blank" href="{{ route('tracker.public') }}?tracking_id={{ item.tracking_id }}">{{ item.tracking_id }}</a></td>
+        <td>{{ item.shop.name }}</td>
+        <td>{{ item.customer_name }} <br>{{ item.customer_phone }} <br><span>{{ item.customer_address }}</span></td>
+        <td>{{ bnNum(item.weight) }} কেজি</td>
+        <td>{{ item.parcel_price }}</td>
+        <td>{{ bnNum(item.merchant_payback_amount) }} টাকা</td>
+          <td>
+            @if(item.cod_collected)
+            <span class="tag is-success">হ্যাঁ</span>
+            @else
+            <span class="tag is-danger">না</span>
+            @endif
+          </td>
+        <td>{{ item.status }}</td>
+        <td>{{ moment(item.created_at).format('MMM Do YYYY') }}</td>
+        <td>
+          <a href="{{ route('parcels.show', { id: item.id }) }}" class=" text-green-500 mr-2">বিস্তারিত</a>
+          <a href="{{ route('parcels.edit', { id: item.id }) }}" class=" text-green-500 mr-2">সংস্কার</a>
+          <a href="javascript:void(0)"
+            onclick="confirm('Sure to delete?') && document.getElementById('parcel-id-{{ item.id }}').submit()"
+            class="text-red-600">মুছুন</a>
+        </td>
+      </tr>
+      @endeach
+    </tbody>
+  </table>
+</div>
+
 
 
 <div class="my-3">
-  @!component('components/Pagination', last_page = parcels.lastPage , page = parcels.page , show=parseInt(parcels.total) > parcels.perPage)
+  @!component('components/Pagination', last_page = parcels.lastPage , page = parcels.page , show=parseInt(parcels.total) > parcels.perPage )
 </div>
 @endsection

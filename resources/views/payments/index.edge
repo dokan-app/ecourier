@@ -1,0 +1,59 @@
+@layout('layouts.dashboard')
+@section('headerHook')
+<style>
+  #data-table th {
+    text-align: left;
+  }
+</style>
+@endsection
+
+@section('body')
+@each(item in parcels.data)
+<form method="POST" action="{{ route('parcels.destroy' , { id: item.id }) }}?_method=delete"
+  id="parcel-id-{{ item.id }}">
+  {{ csrfField() }}
+</form>
+@endeach
+
+<div class="level">
+  <div class="level-left">
+    <h1 class="text-2xl">ডেলিভারকৃত পার্সেল সমূহ ({{ bnNum(parcels.total) }}) | সর্বমোট আদায়: {{ bnNum(+totalPayments) }} টাকা</h1>
+  </div>
+  <div class="level-right">
+    <a class="button is-danger" href="{{ route('parcels.create') }}">নতুন পার্সেল</a>
+  </div>
+</div>
+
+<div class="table-container">
+  <table class="table" style="width:100%">
+    <thead>
+      <tr>
+        <th>ট্র্যাকিং আইডি</th>
+        <th>পার্সেল এর মূল্য</th>
+        <th>গৃহিত টাকা</th>
+        <th>অর্ডার এর সময়</th>
+        <th>একশন</th>
+      </tr>
+    </thead>
+    <tbody>
+      @each(item in parcels.data)
+      <tr>
+        <td><a class="text-red-500" target="_blank" href="{{ route('tracker.public') }}?tracking_id={{ item.tracking_id }}">{{ item.tracking_id }}</a></td>
+        <td>{{ item.parcel_price }}</td>
+        <td>{{ item.merchant_payback_amount }}</td>
+        <td>{{ moment(item.created_at).format('MMM Do YYYY') }}</td>
+        <td>
+          <a href="{{ route('parcels.show', { id: item.id }) }}" class=" text-green-500 mr-2">বিস্তারিত</a>
+        </td>
+      </tr>
+      @endeach
+    </tbody>
+  </table>
+</div>
+
+
+
+<div class="my-3">
+  @!component('components/Pagination', last_page = parcels.lastPage , page = parcels.page , show=parseInt(parcels.total) > parcels.perPage )
+</div>
+@endsection

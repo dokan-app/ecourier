@@ -71,4 +71,8 @@ hooks.after.providersBooted(() => {
   Exception.handle("ForbiddenException", (error, { response }) => {
     return response.redirect("/");
   });
+  // Exception.handle("InvalidTokenException", (error, { response, session }) => {
+  //   session.flash({ errorMsg: error.message });
+  //   return response.redirect("/");
+  // });
 });

@@ -4,18 +4,19 @@
   </p>
   <ul class="menu-list">
     <li>
-      <a 
-        class="{{ request.url().includes(route('areas.index')) && 'is-active' }}" 
-        href="{{ route('parcels-admin.index') }}">পার্সেল অর্ডার</a></li>
+      <a class="{{ request.url().includes(route('areas.index')) && 'is-active' }}"
+        href="{{ route('parcels-admin.index') }}">
+        পার্সেল অর্ডার
+      </a>
+    </li>
     <li>
-      <a 
-        class="{{ request.url().includes(route('zones.index')) && 'is-active' }}" 
-        href="{{ route('zones.index') }}">জোনসমূহ</a></li>
+      <a class="{{ request.url().includes(route('zones.index')) && 'is-active' }}"
+        href="{{ route('zones.index') }}">জোনসমূহ</a>
+    </li>
     <li>
-      <a 
-        class="{{ request.url().includes(route('areas.index')) && 'is-active' }}" 
-        href="{{ route('areas.index') }}">এরিয়াসমূহ</a></li>
-        
+      <a class="{{ request.url().includes(route('areas.index')) && 'is-active' }}"
+        href="{{ route('areas.index') }}">এরিয়াসমূহ</a>
+    </li>
   </ul>
 
 
@@ -26,5 +27,5 @@
       <li><a href="{{ route('settings.password') }}">পাসওয়ার্ড হালনাগাদ</a></li>
     </ul>
   </div>
-  
+
 </aside>

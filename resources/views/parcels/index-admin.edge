@@ -52,6 +52,7 @@
       <th>ওজন</th>
       <th>COD এর পরিমাণ</th>
       <th>টাকা গ্রহণ</th>
+      <th>অবস্থা</th>
       <th>অর্ডার এর সময়</th>
       <th>একশন</th>
     </tr>
@@ -72,6 +73,7 @@
         <span class="tag is-danger">না</span>
         @endif
       </td>
+      <td>{{ item.status }}</td>
       <td>{{ moment(item.created_at).format('MMM Do YYYY') }}</td>
       <td>
         <a href="{{ route('parcels-admin.show', { id: item.id }) }}" class=" text-green-500 mr-2">বিস্তারিত</a>
