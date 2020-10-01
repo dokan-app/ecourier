@@ -20,15 +20,17 @@
 
   img {
     width: auto;
-    height: 30px;
+    height: 36px;
   }
 }
+
 
 .translate-up {
   &:hover {
     transform: translateY(-5px);
   }
 }
+
 
 .coverage-map {
   img {

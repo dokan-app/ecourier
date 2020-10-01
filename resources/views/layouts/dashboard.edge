@@ -19,12 +19,13 @@
     <div class="container is-fluid my-5">
       <div class="columns">
         <div class="column is-2 bg-white">
+
           @is('administrator')
-          @include('partials/_admin-dashboard-sidebar')
+            @include('partials/_admin-dashboard-sidebar')
           @endis
 
           @is('merchant')
-          @include('partials/_merchant-dashboard-sidebar')
+            @include('partials/_merchant-dashboard-sidebar')
           @endis
         </div>
         <div class="column py-0">

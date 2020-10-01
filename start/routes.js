@@ -96,7 +96,12 @@ Route.group(() => {
   Route.get("payments", "PaymentController.index").as("merchant.payments");
 })
   .prefix("dashboard")
-  .middleware(["is:merchant"]);
+  .middleware(["Authenticated"]);
+// .middleware(["Authenticated", "is:merchant"]);
+
+
+
+
 
 Route.post("auth/logout", "AuthController.logout")
   .as("auth.logout")
